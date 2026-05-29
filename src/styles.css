@@ -1,0 +1,335 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   1. DESIGN TOKENS (Quiet Luxury — Champagne Gold + Midnight Navy)
+   Token-token ini otomatis menghasilkan utility class:
+   bg-primary, text-secondary, rounded-md, shadow-glow, ease-luxury, dll.
+   ========================================================================== */
+@theme {
+  --color-primary: #0a1931;
+  --color-primary-light: #15305b;
+  --color-secondary: #c5a880;
+  --color-secondary-dark: #a98e65;
+  --color-secondary-light: #e2d5c3;
+  --color-accent: #e5ba73;
+
+  --color-surface: #f8f9fa;
+  --color-night: #070f1e;
+  --color-night-card: #0f1d36;
+
+  --color-ink: #1c2434;
+  --color-mute: #5c677d;
+  --color-fade: #94a3b8;
+
+  --font-display: "Plus Jakarta Sans", sans-serif;
+  --font-body: "Outfit", sans-serif;
+
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+
+  --shadow-soft: 0 10px 30px rgb(10 25 49 / 0.04);
+  --shadow-medium: 0 15px 40px rgb(10 25 49 / 0.08);
+  --shadow-glow: 0 8px 25px rgb(197 168 128 / 0.25);
+
+  --ease-luxury: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ==========================================================================
+   2. BASE STYLES
+   ========================================================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    @apply bg-surface text-ink font-body leading-relaxed overflow-x-hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display font-bold text-primary leading-tight;
+  }
+}
+
+/* ==========================================================================
+   3. REUSABLE COMPONENT CLASSES (pakai @apply biar konsisten)
+   ========================================================================== */
+@layer components {
+  .container-x {
+    @apply w-full max-w-[1200px] mx-auto px-6;
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-7 py-3 rounded-sm
+           bg-secondary text-primary border-2 border-secondary
+           font-display font-bold no-underline cursor-pointer
+           transition-all duration-400 ease-luxury
+           hover:bg-primary hover:text-secondary hover:border-primary
+           hover:shadow-glow hover:-translate-y-0.5
+           disabled:opacity-70 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-7 py-3 rounded-sm
+           bg-transparent text-white border-2 border-white
+           font-display font-bold no-underline cursor-pointer
+           transition-all duration-400 ease-luxury
+           hover:bg-white hover:text-primary hover:-translate-y-0.5;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-7 py-3 rounded-sm
+           bg-transparent text-primary border-2 border-primary
+           font-display font-bold no-underline cursor-pointer
+           transition-all duration-400 ease-luxury
+           hover:bg-primary hover:text-white hover:-translate-y-0.5;
+  }
+
+  .btn-large {
+    @apply px-9 py-4 text-[1.1rem];
+  }
+  .btn-small {
+    @apply px-[18px] py-2 text-[0.9rem];
+  }
+  .btn-full {
+    @apply flex w-full;
+  }
+
+  /* ---------- Section header ---------- */
+  .section-label {
+    @apply font-display font-bold text-[0.8rem] tracking-[2px]
+           text-secondary-dark uppercase block mb-3;
+  }
+  .section-title {
+    @apply text-[2.25rem] font-extrabold mb-4 tracking-[-0.5px]
+           max-md:text-[1.6rem];
+  }
+  .section-desc {
+    @apply text-mute text-[1.05rem] font-light;
+  }
+}
+
+/* ==========================================================================
+   4. ANIMASI KEYFRAME
+   ========================================================================== */
+@keyframes slowZoom {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes pulseGlow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(197, 168, 128, 0.3);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(197, 168, 128, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(197, 168, 128, 0);
+  }
+}
+
+.animate-slow-zoom {
+  animation: slowZoom 20s infinite alternate;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s infinite;
+}
+
+/* ---------- Virtual Tour 3D modal animations ---------- */
+@keyframes vtFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes vtSlideUp {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+.animate-vt-fade-in {
+  animation: vtFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-vt-slide-up {
+  animation: vtSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ==========================================================================
+   5. RANGE SLIDER (browser-specific pseudo-element)
+   ========================================================================== */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    to right,
+    var(--color-secondary) 0%,
+    var(--color-secondary) var(--value, 0%),
+    rgba(10, 25, 49, 0.14) var(--value, 0%),
+    rgba(10, 25, 49, 0.14) 100%
+  );
+  outline: none;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%, #34527d 0%, #18345b 45%, var(--color-primary) 100%);
+  border: 1.5px solid var(--color-secondary);
+  box-shadow:
+    0 1px 2px rgba(10, 25, 49, 0.3),
+    0 6px 14px rgba(10, 25, 49, 0.22),
+    inset 0 -1px 1.5px rgba(0, 0, 0, 0.35),
+    inset 0 1px 1.5px rgba(255, 220, 160, 0.35);
+  cursor: grab;
+  transition: transform 0.25s var(--ease-luxury), box-shadow 0.25s var(--ease-luxury);
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.08);
+  box-shadow:
+    0 2px 4px rgba(10, 25, 49, 0.35),
+    0 8px 18px rgba(10, 25, 49, 0.25),
+    inset 0 -1px 1.5px rgba(0, 0, 0, 0.35),
+    inset 0 1px 1.5px rgba(255, 220, 160, 0.4);
+}
+
+input[type="range"]::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  transform: scale(1.04);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 28%, #34527d 0%, #18345b 45%, var(--color-primary) 100%);
+  border: 1.5px solid var(--color-secondary);
+  box-shadow:
+    0 1px 2px rgba(10, 25, 49, 0.3),
+    0 6px 14px rgba(10, 25, 49, 0.22),
+    inset 0 -1px 1.5px rgba(0, 0, 0, 0.35),
+    inset 0 1px 1.5px rgba(255, 220, 160, 0.35);
+  cursor: grab;
+  transition: transform 0.25s var(--ease-luxury), box-shadow 0.25s var(--ease-luxury);
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  transform: scale(1.08);
+}
+
+input[type="range"]::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: transparent;
+  border: none;
+}
+
+input[type="range"]:focus-visible::-webkit-slider-thumb {
+  box-shadow:
+    0 0 0 4px rgba(178, 142, 84, 0.28),
+    0 1px 2px rgba(10, 25, 49, 0.3),
+    0 6px 14px rgba(10, 25, 49, 0.22),
+    inset 0 -1px 1.5px rgba(0, 0, 0, 0.35),
+    inset 0 1px 1.5px rgba(255, 220, 160, 0.4);
+}
+
+/* ==========================================================================
+   6. CUSTOM SCROLLBAR (untuk amenities list)
+   ========================================================================== */
+.scrollbar-luxury::-webkit-scrollbar {
+  width: 4px;
+}
+.scrollbar-luxury::-webkit-scrollbar-thumb {
+  background-color: rgba(10, 25, 49, 0.1);
+  border-radius: 2px;
+}
+
+/* ==========================================================================
+   7. LEAFLET OVERRIDES (style internal leaflet, harus pakai !important)
+   ========================================================================== */
+.leaflet-popup-content-wrapper {
+  border-radius: var(--radius-sm) !important;
+  box-shadow: 0 8px 24px rgba(10, 25, 49, 0.15) !important;
+  padding: 0 !important;
+  border: 1px solid rgba(197, 168, 128, 0.3);
+}
+
+.leaflet-popup-content {
+  margin: 0 !important;
+  font-family: var(--font-display) !important;
+  font-size: 0.85rem !important;
+  line-height: 1.5 !important;
+  min-width: 180px;
+}
+
+.leaflet-popup-tip {
+  border-top-color: white;
+  box-shadow: 0 4px 8px rgba(10, 25, 49, 0.08);
+}
+
+.leaflet-control-zoom a {
+  background-color: var(--color-primary) !important;
+  color: var(--color-secondary-light) !important;
+  border: none !important;
+  width: 36px !important;
+  height: 36px !important;
+  line-height: 36px !important;
+  font-size: 1.1rem !important;
+  transition: all 0.4s var(--ease-luxury);
+}
+
+.leaflet-control-zoom a:hover {
+  background-color: var(--color-secondary) !important;
+  color: var(--color-primary) !important;
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+  border-radius: var(--radius-sm) !important;
+  overflow: hidden;
+  box-shadow: var(--shadow-medium) !important;
+}
+
+/* ==========================================================================
+   8. ACCESSIBILITY SKIP LINK
+   ========================================================================== */
+.skip-link {
+  @apply absolute -top-24 left-5 bg-secondary text-primary px-5 py-2.5
+         rounded-sm z-9999 font-bold transition-[top] duration-200
+         focus:top-5;
+}
