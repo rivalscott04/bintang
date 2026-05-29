@@ -2,7 +2,9 @@ import { lazy, Suspense, useMemo, useState } from 'react';
 import { AMENITY_CATEGORIES, AMENITY_LOCATIONS, CATEGORY_STYLE } from '../../data/amenities';
 import SectionHeader from '../ui/SectionHeader';
 
-const AmenitiesMap = lazy(() => import('./AmenitiesMap'));
+const AmenitiesMap = lazy(() =>
+  import(/* webpackPrefetch: false */ /* webpackPreload: false */ './AmenitiesMap'),
+);
 
 export default function Amenities() {
   const [activeCategory, setActiveCategory] = useState('all');

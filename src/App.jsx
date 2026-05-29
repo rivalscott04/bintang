@@ -4,15 +4,28 @@ import Footer from './components/layout/Footer';
 import FloatingWhatsApp from './components/layout/FloatingWhatsApp';
 import StickyMobileNav from './components/layout/StickyMobileNav';
 import Hero from './components/sections/Hero';
+import LazyWhenVisible from './components/ui/LazyWhenVisible';
 import Toast from './components/ui/Toast';
 import { useToast } from './hooks/useToast';
 
-const Clusters = lazy(() => import('./components/sections/Clusters'));
-const VirtualTour = lazy(() => import('./components/sections/VirtualTour'));
-const Amenities = lazy(() => import('./components/sections/Amenities'));
-const KPRCalculator = lazy(() => import('./components/sections/KPRCalculator'));
-const About = lazy(() => import('./components/sections/About'));
-const Contact = lazy(() => import('./components/sections/Contact'));
+const Clusters = lazy(() =>
+  import(/* webpackPrefetch: false */ /* webpackPreload: false */ './components/sections/Clusters'),
+);
+const VirtualTour = lazy(() =>
+  import(/* webpackPrefetch: false */ /* webpackPreload: false */ './components/sections/VirtualTour'),
+);
+const Amenities = lazy(() =>
+  import(/* webpackPrefetch: false */ /* webpackPreload: false */ './components/sections/Amenities'),
+);
+const KPRCalculator = lazy(() =>
+  import(/* webpackPrefetch: false */ /* webpackPreload: false */ './components/sections/KPRCalculator'),
+);
+const About = lazy(() =>
+  import(/* webpackPrefetch: false */ /* webpackPreload: false */ './components/sections/About'),
+);
+const Contact = lazy(() =>
+  import(/* webpackPrefetch: false */ /* webpackPreload: false */ './components/sections/Contact'),
+);
 
 export default function App() {
   const { toast, show, dismiss } = useToast();
@@ -35,22 +48,42 @@ export default function App() {
 
       <main id="content">
         <Hero />
-        <Suspense fallback={null}>
-          <Clusters />
-          <VirtualTour />
-        </Suspense>
-        <Suspense fallback={null}>
-          <Amenities />
-        </Suspense>
-        <Suspense fallback={null}>
-          <KPRCalculator />
-        </Suspense>
-        <Suspense fallback={null}>
-          <About />
-        </Suspense>
-        <Suspense fallback={null}>
-          <Contact onSubmit={handleLeadSubmit} />
-        </Suspense>
+
+        <LazyWhenVisible minHeight="800px">
+          <Suspense fallback={null}>
+            <Clusters />
+          </Suspense>
+        </LazyWhenVisible>
+
+        <LazyWhenVisible minHeight="600px">
+          <Suspense fallback={null}>
+            <VirtualTour />
+          </Suspense>
+        </LazyWhenVisible>
+
+        <LazyWhenVisible minHeight="520px">
+          <Suspense fallback={null}>
+            <Amenities />
+          </Suspense>
+        </LazyWhenVisible>
+
+        <LazyWhenVisible minHeight="400px">
+          <Suspense fallback={null}>
+            <KPRCalculator />
+          </Suspense>
+        </LazyWhenVisible>
+
+        <LazyWhenVisible minHeight="400px">
+          <Suspense fallback={null}>
+            <About />
+          </Suspense>
+        </LazyWhenVisible>
+
+        <LazyWhenVisible minHeight="480px">
+          <Suspense fallback={null}>
+            <Contact onSubmit={handleLeadSubmit} />
+          </Suspense>
+        </LazyWhenVisible>
       </main>
 
       <Footer />

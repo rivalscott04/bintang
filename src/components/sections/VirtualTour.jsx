@@ -1,8 +1,10 @@
 import { useState, lazy, Suspense } from 'react';
 import SectionHeader from '../ui/SectionHeader';
 
-// Lazy load 3D bundle (~600KB three.js + drei) — hanya load saat user klik "Mulai Tur"
-const VirtualTour3D = lazy(() => import('./virtual-tour/VirtualTour3D'));
+// Hanya fetch chunk Three.js saat user klik — jangan prefetch dari VirtualTour shell.
+const VirtualTour3D = lazy(() =>
+  import(/* webpackPrefetch: false */ /* webpackPreload: false */ './virtual-tour/VirtualTour3D'),
+);
 
 export default function VirtualTour() {
   const [tourActive, setTourActive] = useState(false);

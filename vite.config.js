@@ -39,23 +39,23 @@ export default defineConfig({
   build: {
     // Lighthouse: source maps for large first-party chunks (e.g. three-*.js)
     sourcemap: true,
-    modulePreload: {
-      resolveDependencies: (_filename, deps) =>
-        deps.filter((dep) => !dep.includes('three-') && !dep.includes('leaflet-')),
-    },
+    // Keep Vite's preload helper out of the three.js chunk (otherwise index.js pulls ~900KB).
+    modulePreload: false,
     rollupOptions: {
       output: {
         manualChunks(id) {
+          // React must stay out of the three chunk — otherwise index.js pulls ~1MB on first paint.
+          if (
+            id.includes('node_modules/react-dom') ||
+            id.includes('node_modules/react/') ||
+            id.includes('node_modules/scheduler/')
+          ) {
+            return 'react-vendor';
+          }
           if (id.includes('node_modules/leaflet') || id.includes('react-leaflet')) {
             return 'leaflet';
           }
-          if (
-            id.includes('node_modules/three') ||
-            id.includes('@react-three') ||
-            id.includes('virtual-tour')
-          ) {
-            return 'three';
-          }
+          // Three.js: jangan manualChunk — biar hanya ikut dynamic import VirtualTour3D.
         },
       },
     },

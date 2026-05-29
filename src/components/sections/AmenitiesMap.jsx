@@ -4,11 +4,6 @@ import L from 'leaflet';
 import '../../styles/leaflet.css';
 import { CATEGORY_STYLE } from '../../data/amenities';
 import { GKB_CENTER } from '../../utils/constants';
-import { loadStylesheet } from '../../utils/loadStylesheet';
-
-const LEAFLET_CSS =
-  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
-const LEAFLET_CSS_INTEGRITY = 'sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';
 
 /** Minimum interactive hit area (WCAG / Lighthouse touch-target guidance). */
 const MARKER_HIT_SIZE = 48;
@@ -139,10 +134,6 @@ function MapA11y() {
 
 export default function AmenitiesMap({ locations, flyTarget }) {
   const markerRefs = useRef({});
-
-  useEffect(() => {
-    loadStylesheet(LEAFLET_CSS, { integrity: LEAFLET_CSS_INTEGRITY });
-  }, []);
 
   const fitBounds = useMemo(
     () => [GKB_CENTER, ...locations.map((l) => [l.lat, l.lng])],
