@@ -48,7 +48,7 @@
   animation: vtSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-/* Range slider — track tipis, thumb besar menonjol + grip (jelas bisa di-drag) */
+/* Range slider — track tipis, thumb solid menonjol (jelas bisa di-drag) */
 input[type="range"] {
   --range-track-h: 10px;
   --range-thumb: 40px;
@@ -85,25 +85,7 @@ input[type="range"]::-webkit-slider-thumb {
   height: var(--range-thumb);
   margin-top: var(--range-thumb-offset);
   border-radius: 50%;
-  background-color: #fff;
-  background-image: repeating-linear-gradient(
-    90deg,
-    transparent 0,
-    transparent 11px,
-    rgba(10, 25, 49, 0.22) 11px,
-    rgba(10, 25, 49, 0.22) 13px,
-    transparent 13px,
-    transparent 19px,
-    rgba(10, 25, 49, 0.22) 19px,
-    rgba(10, 25, 49, 0.22) 21px,
-    transparent 21px,
-    transparent 27px,
-    rgba(10, 25, 49, 0.22) 27px,
-    rgba(10, 25, 49, 0.22) 29px,
-    transparent 29px
-  );
-  background-position: center;
-  background-repeat: no-repeat;
+  background: #fff;
   border: 3px solid var(--color-secondary);
   box-shadow:
     0 2px 4px rgba(10, 25, 49, 0.12),
@@ -146,25 +128,7 @@ input[type="range"]::-moz-range-thumb {
   width: var(--range-thumb);
   height: var(--range-thumb);
   border-radius: 50%;
-  background-color: #fff;
-  background-image: repeating-linear-gradient(
-    90deg,
-    transparent 0,
-    transparent 11px,
-    rgba(10, 25, 49, 0.22) 11px,
-    rgba(10, 25, 49, 0.22) 13px,
-    transparent 13px,
-    transparent 19px,
-    rgba(10, 25, 49, 0.22) 19px,
-    rgba(10, 25, 49, 0.22) 21px,
-    transparent 21px,
-    transparent 27px,
-    rgba(10, 25, 49, 0.22) 27px,
-    rgba(10, 25, 49, 0.22) 29px,
-    transparent 29px
-  );
-  background-position: center;
-  background-repeat: no-repeat;
+  background: #fff;
   border: 3px solid var(--color-secondary);
   box-shadow:
     0 2px 4px rgba(10, 25, 49, 0.12),
