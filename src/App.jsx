@@ -1,16 +1,28 @@
+import { lazy, Suspense } from 'react';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import FloatingWhatsApp from './components/layout/FloatingWhatsApp';
 import StickyMobileNav from './components/layout/StickyMobileNav';
 import Hero from './components/sections/Hero';
-import Clusters from './components/sections/Clusters';
-import VirtualTour from './components/sections/VirtualTour';
-import Amenities from './components/sections/Amenities';
-import KPRCalculator from './components/sections/KPRCalculator';
-import About from './components/sections/About';
-import Contact from './components/sections/Contact';
 import Toast from './components/ui/Toast';
 import { useToast } from './hooks/useToast';
+
+const Clusters = lazy(() => import('./components/sections/Clusters'));
+const VirtualTour = lazy(() => import('./components/sections/VirtualTour'));
+const Amenities = lazy(() => import('./components/sections/Amenities'));
+const KPRCalculator = lazy(() => import('./components/sections/KPRCalculator'));
+const About = lazy(() => import('./components/sections/About'));
+const Contact = lazy(() => import('./components/sections/Contact'));
+
+function SectionFallback({ minHeight = 320 }) {
+  return (
+    <div
+      className="py-24 bg-surface animate-pulse"
+      style={{ minHeight }}
+      aria-hidden="true"
+    />
+  );
+}
 
 export default function App() {
   const { toast, show, dismiss } = useToast();
@@ -33,12 +45,22 @@ export default function App() {
 
       <main id="content">
         <Hero />
-        <Clusters />
-        <VirtualTour />
-        <Amenities />
-        <KPRCalculator />
-        <About />
-        <Contact onSubmit={handleLeadSubmit} />
+        <Suspense fallback={null}>
+          <Clusters />
+          <VirtualTour />
+        </Suspense>
+        <Suspense fallback={<SectionFallback minHeight={480} />}>
+          <Amenities />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <KPRCalculator />
+        </Suspense>
+        <Suspense fallback={<SectionFallback />}>
+          <About />
+        </Suspense>
+        <Suspense fallback={<SectionFallback minHeight={400} />}>
+          <Contact onSubmit={handleLeadSubmit} />
+        </Suspense>
       </main>
 
       <Footer />

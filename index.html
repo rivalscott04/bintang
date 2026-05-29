@@ -13,15 +13,56 @@
       content="grand kota bintang, superblock bekasi, perumahan bekasi, ruko stellar avenue, cluster marocco, cluster roma, tol jorr, tol becakayu, rumah mewah bekasi, developer perumahan"
     />
     <meta name="author" content="Grand Kota Bintang Developer" />
-    <link rel="icon" type="image/png" href="/assets/cluster_marocco.png" />
+    <link rel="icon" type="image/webp" href="/assets/favicon.webp" />
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- LCP hero image: fetch before JS so mobile paint is faster -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      as="image"
+      type="image/webp"
+      href="/assets/cluster_marocco-640.webp"
+      media="(max-width: 767px)"
+      fetchpriority="high"
     />
+    <link
+      rel="preload"
+      as="image"
+      type="image/webp"
+      href="/assets/cluster_marocco.webp"
+      media="(min-width: 768px)"
+      fetchpriority="high"
+    />
+
+    <!-- Fonts: self-hosted via @fontsource di styles.css (tanpa rantai fonts.googleapis.com) -->
+
+    <!-- Critical above-the-fold — mencegah FOUC saat CSS bundle di-defer -->
+    <style>
+      html {
+        -webkit-font-smoothing: antialiased;
+      }
+      body {
+        margin: 0;
+        background: #f8f9fa;
+        color: #1c2434;
+        font-family: system-ui, -apple-system, sans-serif;
+        overflow-x: hidden;
+      }
+      #hero {
+        position: relative;
+        min-height: 650px;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+        padding-top: 5rem;
+      }
+      @media (max-width: 768px) {
+        #hero {
+          min-height: 0;
+          height: auto;
+          padding-bottom: 4rem;
+        }
+      }
+    </style>
 
     <!-- FontAwesome Icons (Asynchronous non-blocking loading) -->
     <link
@@ -42,6 +83,29 @@
     />
   </head>
   <body>
+    <!-- Static LCP layer: paints before React; hidden once app mounts -->
+    <div id="hero-lcp-bg" class="hero-lcp-bg" aria-hidden="true">
+      <picture>
+        <source
+          media="(max-width: 767px)"
+          srcset="/assets/cluster_marocco-640.webp"
+          type="image/webp"
+        />
+        <source
+          media="(max-width: 1024px)"
+          srcset="/assets/cluster_marocco-828.webp"
+          type="image/webp"
+        />
+        <img
+          src="/assets/cluster_marocco.webp"
+          alt=""
+          width="1024"
+          height="1024"
+          fetchpriority="high"
+          decoding="sync"
+        />
+      </picture>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

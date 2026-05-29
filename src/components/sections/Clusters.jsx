@@ -15,6 +15,10 @@ function ClusterCard({ cluster }) {
         <img
           src={cluster.image}
           alt={cluster.imageAlt}
+          width={1024}
+          height={683}
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover transition-transform duration-400 ease-luxury group-hover:scale-[1.08]"
         />
         <div className="absolute inset-0 bg-night/40 opacity-0 flex items-center justify-center transition-opacity duration-400 ease-luxury group-hover:opacity-100 z-5">

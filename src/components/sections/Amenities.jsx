@@ -1,7 +1,8 @@
-import { useMemo, useState } from 'react';
+import { lazy, Suspense, useMemo, useState } from 'react';
 import { AMENITY_CATEGORIES, AMENITY_LOCATIONS, CATEGORY_STYLE } from '../../data/amenities';
 import SectionHeader from '../ui/SectionHeader';
-import AmenitiesMap from './AmenitiesMap';
+
+const AmenitiesMap = lazy(() => import('./AmenitiesMap'));
 
 export default function Amenities() {
   const [activeCategory, setActiveCategory] = useState('all');
@@ -97,10 +98,19 @@ export default function Amenities() {
           </div>
 
           <div className="relative rounded-lg overflow-hidden shadow-medium border border-primary/8 flex flex-col max-md:h-[320px]">
-            <AmenitiesMap
-              locations={visibleLocations}
-              flyTarget={activeLocation?.kind === 'location' ? activeLocation : null}
-            />
+            <Suspense
+              fallback={
+                <div
+                  className="flex-1 min-h-[280px] bg-primary/5 animate-pulse"
+                  aria-label="Memuat peta lokasi"
+                />
+              }
+            >
+              <AmenitiesMap
+                locations={visibleLocations}
+                flyTarget={activeLocation?.kind === 'location' ? activeLocation : null}
+              />
+            </Suspense>
             <MapInfoBar activeLocation={activeLocation} />
           </div>
         </div>

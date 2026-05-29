@@ -67,8 +67,14 @@ function MapController({ flyTarget, fitBounds, markerRefs }) {
   }, [fitBounds, map]);
 
   useEffect(() => {
-    const timer = setTimeout(() => map.invalidateSize(), 200);
-    return () => clearTimeout(timer);
+    let rafId;
+    const timer = setTimeout(() => {
+      rafId = requestAnimationFrame(() => map.invalidateSize());
+    }, 200);
+    return () => {
+      clearTimeout(timer);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, [map]);
 
   return null;

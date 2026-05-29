@@ -19,8 +19,12 @@ export default function VirtualTour() {
         {/* Card preview — desktop fixed-height, mobile auto-grow biar gak ada konten yang terpotong */}
         <div className="relative w-full h-[520px] max-md:h-auto max-md:min-h-[460px] rounded-lg overflow-hidden shadow-medium border border-white/70 bg-primary group">
           <img
-            src="/assets/cluster_marocco.webp"
+            src="/assets/cluster_marocco-828.webp"
             alt="Preview Cluster Marocco Virtual Tour 3D"
+            width={828}
+            height={828}
+            loading="lazy"
+            decoding="async"
             className="absolute inset-0 w-full h-full object-cover brightness-[0.35] scale-105 transition-transform duration-3000 ease-luxury group-hover:scale-110"
           />
 

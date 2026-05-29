@@ -1,8 +1,13 @@
+import { useEffect } from 'react';
 import { HERO_FEATURES } from '../../data/heroFeatures';
 import { useSmoothScroll } from '../../hooks/useSmoothScroll';
 
 export default function Hero() {
   const handleScroll = useSmoothScroll();
+
+  useEffect(() => {
+    document.getElementById('hero-lcp-bg')?.remove();
+  }, []);
 
   return (
     <section
@@ -12,12 +17,28 @@ export default function Hero() {
       <div className="absolute inset-0 z-2 bg-linear-to-b from-night/40 to-night/80" />
 
       <div className="absolute inset-0 z-1">
-        <img
-          src="/assets/cluster_marocco.webp"
-          alt="Grand Kota Bintang Townhouse Exterior at Sunset"
-          className="w-full h-full object-cover animate-slow-zoom"
-          fetchPriority="high"
-        />
+        <picture>
+          <source
+            media="(max-width: 767px)"
+            srcSet="/assets/cluster_marocco-640.webp"
+            type="image/webp"
+          />
+          <source
+            media="(max-width: 1024px)"
+            srcSet="/assets/cluster_marocco-828.webp"
+            type="image/webp"
+          />
+          <img
+            src="/assets/cluster_marocco.webp"
+            alt="Grand Kota Bintang Townhouse Exterior at Sunset"
+            width={1024}
+            height={1024}
+            className="w-full h-full object-cover animate-slow-zoom"
+            fetchPriority="high"
+            decoding="sync"
+            sizes="100vw"
+          />
+        </picture>
       </div>
 
       <div className="relative z-3 max-w-[800px] mx-auto px-6 text-center text-white">
