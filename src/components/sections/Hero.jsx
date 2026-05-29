@@ -6,7 +6,7 @@ export default function Hero() {
   const handleScroll = useSmoothScroll();
 
   useEffect(() => {
-    document.getElementById('hero-lcp-bg')?.remove();
+    document.getElementById('hero-fallback')?.remove();
   }, []);
 
   return (
@@ -14,33 +14,6 @@ export default function Hero() {
       id="hero"
       className="relative h-[95vh] min-h-[650px] max-md:h-auto max-md:min-h-0 max-md:pb-16 flex items-center overflow-hidden pt-20"
     >
-      <div className="absolute inset-0 z-2 bg-linear-to-b from-night/40 to-night/80" />
-
-      <div className="absolute inset-0 z-1">
-        <picture>
-          <source
-            media="(max-width: 767px)"
-            srcSet="/assets/cluster_marocco-640.webp"
-            type="image/webp"
-          />
-          <source
-            media="(max-width: 1024px)"
-            srcSet="/assets/cluster_marocco-828.webp"
-            type="image/webp"
-          />
-          <img
-            src="/assets/cluster_marocco.webp"
-            alt="Grand Kota Bintang Townhouse Exterior at Sunset"
-            width={1024}
-            height={1024}
-            className="w-full h-full object-cover animate-slow-zoom"
-            fetchPriority="high"
-            decoding="sync"
-            sizes="100vw"
-          />
-        </picture>
-      </div>
-
       <div className="relative z-3 max-w-[800px] mx-auto px-6 text-center text-white">
         <div className="inline-flex items-center gap-2 bg-secondary/20 border border-secondary/40 backdrop-blur-md px-[18px] py-2 rounded-full font-display font-bold text-[0.8rem] tracking-[1.5px] text-secondary-light mb-6">
           <i className="fa-solid fa-gem" /> THE GOLDEN ACCESS SUPERBLOCK

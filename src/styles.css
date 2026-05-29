@@ -1,14 +1,12 @@
 @import "tailwindcss";
 
 /* Self-hosted fonts (latin only) — tanpa rantai fonts.googleapis.com → gstatic */
-@import "@fontsource/plus-jakarta-sans/latin-400.css";
 @import "@fontsource/plus-jakarta-sans/latin-600.css";
 @import "@fontsource/plus-jakarta-sans/latin-700.css";
 @import "@fontsource/plus-jakarta-sans/latin-800.css";
 @import "@fontsource/outfit/latin-300.css";
 @import "@fontsource/outfit/latin-400.css";
 @import "@fontsource/outfit/latin-500.css";
-@import "@fontsource/outfit/latin-600.css";
 
 /* ==========================================================================
    1. DESIGN TOKENS (Quiet Luxury — Champagne Gold + Midnight Navy)
@@ -58,7 +56,7 @@
     @apply bg-surface text-ink font-body leading-relaxed overflow-x-hidden;
   }
 
-  /* Static LCP hero (index.html) — removed after React mounts */
+  /* Static LCP hero (index.html) — satu gambar untuk seluruh sesi */
   .hero-lcp-bg {
     position: absolute;
     top: 0;
@@ -77,9 +75,17 @@
     object-fit: cover;
   }
 
+  .hero-lcp-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgb(7 15 30 / 0.4), rgb(7 15 30 / 0.8));
+    pointer-events: none;
+  }
+
   #root {
     position: relative;
-    z-index: 1;
+    z-index: 2;
   }
 
   h1,
@@ -163,214 +169,12 @@
   }
 }
 
-@keyframes pulseGlow {
-  0% {
-    box-shadow: 0 0 0 0 rgba(197, 168, 128, 0.3);
-  }
-  70% {
-    box-shadow: 0 0 0 15px rgba(197, 168, 128, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(197, 168, 128, 0);
-  }
-}
-
 .animate-slow-zoom {
   animation: slowZoom 20s infinite alternate;
 }
 
-.animate-pulse-glow {
-  animation: pulseGlow 2s infinite;
-}
-
-/* ---------- Virtual Tour 3D modal animations ---------- */
-@keyframes vtFadeIn {
-  0% {
-    opacity: 0;
-    transform: scale(1.02);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes vtSlideUp {
-  0% {
-    opacity: 0;
-    transform: translate(-50%, 1rem);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-50%, 0);
-  }
-}
-
-.animate-vt-fade-in {
-  animation: vtFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.animate-vt-slide-up {
-  animation: vtSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
 /* ==========================================================================
-   5. RANGE SLIDER (browser-specific pseudo-element)
-   ========================================================================== */
-input[type="range"] {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 4px;
-  border-radius: 999px;
-  background: linear-gradient(
-    to right,
-    var(--color-secondary) 0%,
-    var(--color-secondary) var(--value, 0%),
-    rgba(10, 25, 49, 0.14) var(--value, 0%),
-    rgba(10, 25, 49, 0.14) 100%
-  );
-  outline: none;
-  cursor: pointer;
-  min-height: 44px;
-  padding: 10px 0;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 32% 28%, #34527d 0%, #18345b 45%, var(--color-primary) 100%);
-  border: 1.5px solid var(--color-secondary);
-  box-shadow:
-    0 1px 2px rgba(10, 25, 49, 0.3),
-    0 6px 14px rgba(10, 25, 49, 0.22),
-    inset 0 -1px 1.5px rgba(0, 0, 0, 0.35),
-    inset 0 1px 1.5px rgba(255, 220, 160, 0.35);
-  cursor: grab;
-  transition: transform 0.25s var(--ease-luxury), box-shadow 0.25s var(--ease-luxury);
-}
-
-input[type="range"]::-webkit-slider-thumb:hover {
-  transform: scale(1.08);
-  box-shadow:
-    0 2px 4px rgba(10, 25, 49, 0.35),
-    0 8px 18px rgba(10, 25, 49, 0.25),
-    inset 0 -1px 1.5px rgba(0, 0, 0, 0.35),
-    inset 0 1px 1.5px rgba(255, 220, 160, 0.4);
-}
-
-input[type="range"]::-webkit-slider-thumb:active {
-  cursor: grabbing;
-  transform: scale(1.04);
-}
-
-input[type="range"]::-moz-range-thumb {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background:
-    radial-gradient(circle at 32% 28%, #34527d 0%, #18345b 45%, var(--color-primary) 100%);
-  border: 1.5px solid var(--color-secondary);
-  box-shadow:
-    0 1px 2px rgba(10, 25, 49, 0.3),
-    0 6px 14px rgba(10, 25, 49, 0.22),
-    inset 0 -1px 1.5px rgba(0, 0, 0, 0.35),
-    inset 0 1px 1.5px rgba(255, 220, 160, 0.35);
-  cursor: grab;
-  transition: transform 0.25s var(--ease-luxury), box-shadow 0.25s var(--ease-luxury);
-}
-
-input[type="range"]::-moz-range-thumb:hover {
-  transform: scale(1.08);
-}
-
-input[type="range"]::-moz-range-track {
-  height: 4px;
-  border-radius: 999px;
-  background: transparent;
-  border: none;
-}
-
-input[type="range"]:focus-visible::-webkit-slider-thumb {
-  box-shadow:
-    0 0 0 4px rgba(178, 142, 84, 0.28),
-    0 1px 2px rgba(10, 25, 49, 0.3),
-    0 6px 14px rgba(10, 25, 49, 0.22),
-    inset 0 -1px 1.5px rgba(0, 0, 0, 0.35),
-    inset 0 1px 1.5px rgba(255, 220, 160, 0.4);
-}
-
-/* ==========================================================================
-   6. CUSTOM SCROLLBAR (untuk amenities list)
-   ========================================================================== */
-.scrollbar-luxury::-webkit-scrollbar {
-  width: 4px;
-}
-.scrollbar-luxury::-webkit-scrollbar-thumb {
-  background-color: rgba(10, 25, 49, 0.1);
-  border-radius: 2px;
-}
-
-/* ==========================================================================
-   7. LEAFLET OVERRIDES (style internal leaflet, harus pakai !important)
-   ========================================================================== */
-.leaflet-popup-content-wrapper {
-  border-radius: var(--radius-sm) !important;
-  box-shadow: 0 8px 24px rgba(10, 25, 49, 0.15) !important;
-  padding: 0 !important;
-  border: 1px solid rgba(197, 168, 128, 0.3);
-}
-
-.leaflet-popup-content {
-  margin: 0 !important;
-  font-family: var(--font-display) !important;
-  font-size: 0.85rem !important;
-  line-height: 1.5 !important;
-  min-width: 180px;
-}
-
-.leaflet-popup-tip {
-  border-top-color: white;
-  box-shadow: 0 4px 8px rgba(10, 25, 49, 0.08);
-}
-
-.leaflet-control-zoom a {
-  background-color: var(--color-primary) !important;
-  color: var(--color-secondary-light) !important;
-  border: none !important;
-  width: 44px !important;
-  height: 44px !important;
-  line-height: 44px !important;
-  font-size: 1.1rem !important;
-  transition: all 0.4s var(--ease-luxury);
-}
-
-.leaflet-popup-close-button {
-  min-width: 44px !important;
-  min-height: 44px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-}
-
-.leaflet-control-zoom a:hover {
-  background-color: var(--color-secondary) !important;
-  color: var(--color-primary) !important;
-}
-
-.leaflet-control-zoom {
-  border: none !important;
-  border-radius: var(--radius-sm) !important;
-  overflow: hidden;
-  box-shadow: var(--shadow-medium) !important;
-}
-
-/* ==========================================================================
-   8. ACCESSIBILITY SKIP LINK
+   5. ACCESSIBILITY SKIP LINK
    ========================================================================== */
 .skip-link {
   @apply absolute -top-24 left-5 bg-secondary text-primary px-5 py-2.5

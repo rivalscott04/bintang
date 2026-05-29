@@ -1,8 +1,14 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { MapContainer, Marker, Polyline, Popup, TileLayer, useMap } from 'react-leaflet';
 import L from 'leaflet';
+import '../../styles/leaflet.css';
 import { CATEGORY_STYLE } from '../../data/amenities';
 import { GKB_CENTER } from '../../utils/constants';
+import { loadStylesheet } from '../../utils/loadStylesheet';
+
+const LEAFLET_CSS =
+  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+const LEAFLET_CSS_INTEGRITY = 'sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';
 
 /* Leaflet divIcon styles are kept inline because they're rendered into the
    leaflet DOM as raw HTML strings (Tailwind classes can't be reliably purged
@@ -117,6 +123,10 @@ function MapA11y() {
 
 export default function AmenitiesMap({ locations, flyTarget }) {
   const markerRefs = useRef({});
+
+  useEffect(() => {
+    loadStylesheet(LEAFLET_CSS, { integrity: LEAFLET_CSS_INTEGRITY });
+  }, []);
 
   const fitBounds = useMemo(
     () => [GKB_CENTER, ...locations.map((l) => [l.lat, l.lng])],

@@ -12,15 +12,28 @@ function ClusterCard({ cluster }) {
       </div>
 
       <div className="relative h-[320px] max-md:h-[240px] overflow-hidden">
-        <img
-          src={cluster.image}
-          alt={cluster.imageAlt}
-          width={1024}
-          height={683}
-          loading="lazy"
-          decoding="async"
-          className="w-full h-full object-cover transition-transform duration-400 ease-luxury group-hover:scale-[1.08]"
-        />
+        <picture>
+          <source
+            media="(max-width: 767px)"
+            srcSet={`${cluster.image.replace('.webp', '-640.webp')}`}
+            type="image/webp"
+          />
+          <source
+            media="(max-width: 1024px)"
+            srcSet={`${cluster.image.replace('.webp', '-828.webp')}`}
+            type="image/webp"
+          />
+          <img
+            src={cluster.image}
+            alt={cluster.imageAlt}
+            width={1024}
+            height={683}
+            loading="lazy"
+            decoding="async"
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="w-full h-full object-cover transition-transform duration-400 ease-luxury group-hover:scale-[1.08]"
+          />
+        </picture>
         <div className="absolute inset-0 bg-night/40 opacity-0 flex items-center justify-center transition-opacity duration-400 ease-luxury group-hover:opacity-100 z-5">
           <a href={cluster.hoverCta.href} className="btn-primary btn-small" onClick={handleScroll}>
             <i className={cluster.hoverCta.icon} /> {cluster.hoverCta.label}

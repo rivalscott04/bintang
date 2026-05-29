@@ -26,7 +26,7 @@
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/webp" href="/assets/favicon.webp" />
 
-    <!-- LCP hero image: fetch before JS so mobile paint is faster -->
+    <!-- LCP hero image: fetch before JS -->
     <link
       rel="preload"
       as="image"
@@ -39,14 +39,20 @@
       rel="preload"
       as="image"
       type="image/webp"
+      href="/assets/cluster_marocco-828.webp"
+      media="(min-width: 768px) and (max-width: 1024px)"
+      fetchpriority="high"
+    />
+    <link
+      rel="preload"
+      as="image"
+      type="image/webp"
       href="/assets/cluster_marocco.webp"
-      media="(min-width: 768px)"
+      media="(min-width: 1025px)"
       fetchpriority="high"
     />
 
-    <!-- Fonts: self-hosted via @fontsource di styles.css (tanpa rantai fonts.googleapis.com) -->
-
-    <!-- Critical above-the-fold — mencegah FOUC saat CSS bundle di-defer -->
+    <!-- Critical above-the-fold — paints before deferred CSS + React -->
     <style>
       html {
         -webkit-font-smoothing: antialiased;
@@ -55,46 +61,135 @@
         margin: 0;
         background: #f8f9fa;
         color: #1c2434;
-        font-family: system-ui, -apple-system, sans-serif;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         overflow-x: hidden;
       }
-      #hero {
+      .hero-lcp-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 95vh;
+        min-height: 650px;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      .hero-lcp-bg img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .hero-lcp-bg::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, rgb(7 15 30 / 0.4), rgb(7 15 30 / 0.8));
+      }
+      #hero-fallback {
+        position: relative;
+        z-index: 1;
+      }
+      #hero-fallback #hero {
         position: relative;
         min-height: 650px;
         display: flex;
         align-items: center;
+        justify-content: center;
         overflow: hidden;
-        padding-top: 5rem;
+        padding: 5rem 1.5rem 4rem;
+        box-sizing: border-box;
       }
-      @media (max-width: 768px) {
-        #hero {
-          min-height: 0;
-          height: auto;
-          padding-bottom: 4rem;
+      #hero-fallback .hf-inner {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+        color: #fff;
+      }
+      #hero-fallback .hf-badge {
+        display: inline-block;
+        background: rgb(197 168 128 / 0.2);
+        border: 1px solid rgb(197 168 128 / 0.4);
+        color: #e2d5c3;
+        padding: 0.5rem 1.125rem;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        margin-bottom: 1.5rem;
+      }
+      #hero-fallback h1 {
+        margin: 0 0 1.25rem;
+        font-size: 2.2rem;
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -0.5px;
+      }
+      #hero-fallback .hf-lead {
+        margin: 0 auto 2rem;
+        max-width: 680px;
+        font-size: 1rem;
+        line-height: 1.6;
+        color: rgb(255 255 255 / 0.85);
+        font-weight: 300;
+      }
+      #hero-fallback .hf-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        align-items: stretch;
+      }
+      #hero-fallback .hf-btn {
+        display: block;
+        padding: 0.875rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.95rem;
+        text-decoration: none;
+        text-align: center;
+      }
+      #hero-fallback .hf-btn-primary {
+        background: #c5a880;
+        color: #0a1931;
+      }
+      #hero-fallback .hf-btn-secondary {
+        background: transparent;
+        color: #fff;
+        border: 1px solid rgb(255 255 255 / 0.35);
+      }
+      @media (min-width: 769px) {
+        #hero-fallback #hero {
+          min-height: 650px;
+          height: 95vh;
+          padding-bottom: 0;
+        }
+        #hero-fallback h1 {
+          font-size: 3.5rem;
+        }
+        #hero-fallback .hf-lead {
+          font-size: 1.2rem;
+          margin-bottom: 2.25rem;
+        }
+        #hero-fallback .hf-actions {
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+        }
+        #hero-fallback .hf-btn {
+          display: inline-block;
+          min-width: 200px;
         }
       }
+      #root {
+        position: relative;
+        z-index: 2;
+      }
     </style>
-
-    <!-- FontAwesome Icons (Asynchronous non-blocking loading) -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-      media="print"
-      onload="this.media='all'"
-    />
-
-    <!-- Leaflet CSS for below-the-fold Interactive Map (Asynchronous non-blocking loading) -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-      crossorigin=""
-      media="print"
-      onload="this.media='all'"
-    />
   </head>
   <body>
-    <!-- Static LCP layer: paints before React; hidden once app mounts -->
+    <!-- Static LCP image — satu sumber; tidak dihapus saat React mount -->
     <div id="hero-lcp-bg" class="hero-lcp-bg" aria-hidden="true">
       <picture>
         <source
@@ -117,6 +212,25 @@
         />
       </picture>
     </div>
+
+    <!-- Static hero copy — dihapus setelah React Hero mount (Speed Index) -->
+    <div id="hero-fallback">
+      <section id="hero">
+        <div class="hf-inner">
+          <div class="hf-badge">THE GOLDEN ACCESS SUPERBLOCK</div>
+          <h1>Elevate Your Lifestyle In Bekasi&apos;s Premium Haven</h1>
+          <p class="hf-lead">
+            Rasakan kenyamanan hidup premium dengan konsep modern superblock terintegrasi. Akses
+            langsung 0 km ke Gerbang Tol JORR &amp; Becakayu untuk konektivitas tanpa batas.
+          </p>
+          <div class="hf-actions">
+            <a href="#clusters" class="hf-btn hf-btn-primary">Lihat Proyek</a>
+            <a href="#virtual-tour" class="hf-btn hf-btn-secondary">Jelajah 3D Virtual Tour</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

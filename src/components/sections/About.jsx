@@ -47,11 +47,28 @@ export default function About() {
           </div>
 
           <div className="relative max-md:-order-1">
-            <img
-              src="/assets/stellar_avenue.png"
-              alt="Grand Kota Bintang Aerial View of Stellar Avenue Commercial Zone"
-              className="w-full h-[480px] max-md:h-[300px] object-cover rounded-lg shadow-medium"
-            />
+            <picture>
+              <source
+                media="(max-width: 767px)"
+                srcSet="/assets/stellar_avenue-640.webp"
+                type="image/webp"
+              />
+              <source
+                media="(max-width: 1024px)"
+                srcSet="/assets/stellar_avenue-828.webp"
+                type="image/webp"
+              />
+              <img
+                src="/assets/stellar_avenue-1024.webp"
+                alt="Grand Kota Bintang Aerial View of Stellar Avenue Commercial Zone"
+                width={1024}
+                height={683}
+                loading="lazy"
+                decoding="async"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                className="w-full h-[480px] max-md:h-[300px] object-cover rounded-lg shadow-medium"
+              />
+            </picture>
             <div className="absolute -bottom-6 max-md:-bottom-4 -left-6 max-md:left-4 bg-primary text-secondary-light px-6 py-5 rounded-md shadow-[0_12px_30px_rgba(10,25,49,0.2)] max-w-[200px] border border-secondary/20">
               <i className="fa-solid fa-award text-[2rem] text-secondary block mb-2" />
               <strong className="font-display text-white text-[0.9rem] block mb-1">
