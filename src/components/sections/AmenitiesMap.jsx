@@ -10,14 +10,27 @@ const LEAFLET_CSS =
   'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
 const LEAFLET_CSS_INTEGRITY = 'sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';
 
+/** Minimum interactive hit area (WCAG / Lighthouse touch-target guidance). */
+const MARKER_HIT_SIZE = 48;
+
 /* Leaflet divIcon styles are kept inline because they're rendered into the
    leaflet DOM as raw HTML strings (Tailwind classes can't be reliably purged
    for that path, and these visuals are very contextual). */
+
+function setMarkerA11y(marker, label) {
+  const el = marker.getElement?.();
+  if (!el) return;
+  el.setAttribute('aria-label', label);
+  el.setAttribute('title', label);
+}
 
 function makeAmenityIcon(category) {
   const color = CATEGORY_STYLE[category];
   return L.divIcon({
     html: `<div style="
+        width: ${MARKER_HIT_SIZE}px; height: ${MARKER_HIT_SIZE}px;
+        display: flex; align-items: center; justify-content: center;
+      "><div style="
         background-color: ${color.bg};
         color: #fff;
         width: 34px; height: 34px;
@@ -27,16 +40,19 @@ function makeAmenityIcon(category) {
         border: 3px solid ${color.border};
         box-shadow: 0 3px 12px rgba(0,0,0,0.25);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
-      "><i class="${color.faIcon}"></i></div>`,
+      "><i class="${color.faIcon}" aria-hidden="true"></i></div></div>`,
     className: 'amenity-marker-icon',
-    iconSize: [34, 34],
-    iconAnchor: [17, 17],
-    popupAnchor: [0, -20],
+    iconSize: [MARKER_HIT_SIZE, MARKER_HIT_SIZE],
+    iconAnchor: [MARKER_HIT_SIZE / 2, MARKER_HIT_SIZE / 2],
+    popupAnchor: [0, -MARKER_HIT_SIZE / 2],
   });
 }
 
 const gkbIcon = L.divIcon({
   html: `<div style="
+      width: ${MARKER_HIT_SIZE}px; height: ${MARKER_HIT_SIZE}px;
+      display: flex; align-items: center; justify-content: center;
+    "><div style="
       background: linear-gradient(135deg, #0A1931, #15305B);
       color: #C5A880;
       width: 44px; height: 44px;
@@ -46,11 +62,11 @@ const gkbIcon = L.divIcon({
       border: 3px solid #C5A880;
       box-shadow: 0 4px 16px rgba(10,25,49,0.4), 0 0 0 6px rgba(197,168,128,0.2);
       animation: pulseGlow 2s infinite;
-    "><i class="fa-solid fa-star"></i></div>`,
+    "><i class="fa-solid fa-star" aria-hidden="true"></i></div></div>`,
   className: 'gkb-center-marker',
-  iconSize: [44, 44],
-  iconAnchor: [22, 22],
-  popupAnchor: [0, -26],
+  iconSize: [MARKER_HIT_SIZE, MARKER_HIT_SIZE],
+  iconAnchor: [MARKER_HIT_SIZE / 2, MARKER_HIT_SIZE / 2],
+  popupAnchor: [0, -MARKER_HIT_SIZE / 2],
 });
 
 /** Imperatively flies the map to a target and opens its popup. */
@@ -147,7 +163,15 @@ export default function AmenitiesMap({ locations, flyTarget }) {
         maxZoom={19}
       />
 
-      <Marker position={GKB_CENTER} icon={gkbIcon} zIndexOffset={1000}>
+      <Marker
+        position={GKB_CENTER}
+        icon={gkbIcon}
+        zIndexOffset={1000}
+        eventHandlers={{
+          add: (e) =>
+            setMarkerA11y(e.target, 'Grand Kota Bintang — pusat proyek, buka detail lokasi'),
+        }}
+      >
         <Popup>
           <div className="p-3.5">
             <div className="font-extrabold text-[0.9rem] text-primary mb-1 flex items-center gap-2">
@@ -170,6 +194,13 @@ export default function AmenitiesMap({ locations, flyTarget }) {
             icon={makeAmenityIcon(loc.category)}
             ref={(ref) => {
               if (ref) markerRefs.current[loc.name] = ref;
+            }}
+            eventHandlers={{
+              add: (e) =>
+                setMarkerA11y(
+                  e.target,
+                  `${loc.name} — ${loc.time}, buka detail lokasi`,
+                ),
             }}
           >
             <Popup>

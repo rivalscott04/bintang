@@ -2,6 +2,18 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 
+/** Kurangi CLS dari font swap (@fontsource default: swap). */
+function fontDisplayOptionalPlugin() {
+  return {
+    name: 'font-display-optional',
+    transform(code, id) {
+      if (id.includes('@fontsource') && id.endsWith('.css')) {
+        return code.replace(/font-display:\s*swap/g, 'font-display: optional');
+      }
+    },
+  };
+}
+
 /** Defer main stylesheet agar tidak memblokir first paint (Lighthouse mobile). */
 function asyncCssPlugin() {
   return {
@@ -19,7 +31,7 @@ function asyncCssPlugin() {
 }
 
 export default defineConfig({
-  plugins: [react(), tailwindcss(), asyncCssPlugin()],
+  plugins: [react(), tailwindcss(), fontDisplayOptionalPlugin(), asyncCssPlugin()],
   server: {
     port: 5173,
     open: true,

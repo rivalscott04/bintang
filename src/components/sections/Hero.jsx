@@ -1,18 +1,13 @@
-import { useEffect } from 'react';
 import { HERO_FEATURES } from '../../data/heroFeatures';
 import { useSmoothScroll } from '../../hooks/useSmoothScroll';
 
 export default function Hero() {
   const handleScroll = useSmoothScroll();
 
-  useEffect(() => {
-    document.getElementById('hero-fallback')?.remove();
-  }, []);
-
   return (
     <section
       id="hero"
-      className="relative h-[95vh] min-h-[650px] max-md:h-auto max-md:min-h-0 max-md:pb-16 flex items-center overflow-hidden pt-20"
+      className="relative h-[95vh] min-h-[650px] max-md:pb-16 flex items-center overflow-hidden pt-20"
     >
       <div className="relative z-3 max-w-[800px] mx-auto px-6 text-center text-white">
         <div className="inline-flex items-center gap-2 bg-secondary/20 border border-secondary/40 backdrop-blur-md px-[18px] py-2 rounded-full font-display font-bold text-[0.8rem] tracking-[1.5px] text-secondary-light mb-6">

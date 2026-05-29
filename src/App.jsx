@@ -14,16 +14,6 @@ const KPRCalculator = lazy(() => import('./components/sections/KPRCalculator'));
 const About = lazy(() => import('./components/sections/About'));
 const Contact = lazy(() => import('./components/sections/Contact'));
 
-function SectionFallback({ minHeight = 320 }) {
-  return (
-    <div
-      className="py-24 bg-surface animate-pulse"
-      style={{ minHeight }}
-      aria-hidden="true"
-    />
-  );
-}
-
 export default function App() {
   const { toast, show, dismiss } = useToast();
 
@@ -49,16 +39,16 @@ export default function App() {
           <Clusters />
           <VirtualTour />
         </Suspense>
-        <Suspense fallback={<SectionFallback minHeight={480} />}>
+        <Suspense fallback={null}>
           <Amenities />
         </Suspense>
-        <Suspense fallback={<SectionFallback />}>
+        <Suspense fallback={null}>
           <KPRCalculator />
         </Suspense>
-        <Suspense fallback={<SectionFallback />}>
+        <Suspense fallback={null}>
           <About />
         </Suspense>
-        <Suspense fallback={<SectionFallback minHeight={400} />}>
+        <Suspense fallback={null}>
           <Contact onSubmit={handleLeadSubmit} />
         </Suspense>
       </main>

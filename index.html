@@ -26,6 +26,20 @@
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" type="image/webp" href="/assets/favicon.webp" />
 
+    <!-- Icons above-the-fold — hindari layout shift saat FA load idle -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      onload="this.onload=null;this.rel='stylesheet'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      />
+    </noscript>
+
     <!-- LCP hero image: fetch before JS -->
     <link
       rel="preload"
@@ -140,6 +154,7 @@
         flex-direction: column;
         gap: 0.75rem;
         align-items: stretch;
+        margin-bottom: 1.5rem;
       }
       #hero-fallback .hf-btn {
         display: block;
@@ -159,7 +174,46 @@
         color: #fff;
         border: 1px solid rgb(255 255 255 / 0.35);
       }
+      #hero-fallback .hf-features {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        margin-top: 0;
+        padding: 1.25rem;
+        background: rgb(255 255 255 / 0.05);
+        border: 1px solid rgb(255 255 255 / 0.1);
+        border-radius: 16px;
+      }
+      #hero-fallback .hf-feature {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        text-align: left;
+      }
+      #hero-fallback .hf-feature-icon {
+        width: 3rem;
+        height: 3rem;
+        border-radius: 8px;
+        background: rgb(197 168 128 / 0.1);
+        border: 1px solid rgb(197 168 128 / 0.2);
+        flex-shrink: 0;
+      }
+      #hero-fallback .hf-feature strong {
+        display: block;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 0.15rem;
+      }
+      #hero-fallback .hf-feature span {
+        font-size: 0.75rem;
+        color: rgb(255 255 255 / 0.6);
+      }
       @media (min-width: 769px) {
+        #hero-fallback .hf-features {
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1.25rem;
+        }
         #hero-fallback #hero {
           min-height: 650px;
           height: 95vh;
@@ -181,10 +235,18 @@
           display: inline-block;
           min-width: 200px;
         }
+        #hero-fallback .hf-actions {
+          margin-bottom: 4rem;
+        }
       }
       #root {
         position: relative;
         z-index: 2;
+      }
+      @media (max-width: 768px) {
+        body {
+          padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+        }
       }
     </style>
   </head>
@@ -213,25 +275,48 @@
       </picture>
     </div>
 
-    <!-- Static hero copy — dihapus setelah React Hero mount (Speed Index) -->
-    <div id="hero-fallback">
-      <section id="hero">
-        <div class="hf-inner">
-          <div class="hf-badge">THE GOLDEN ACCESS SUPERBLOCK</div>
-          <h1>Elevate Your Lifestyle In Bekasi&apos;s Premium Haven</h1>
-          <p class="hf-lead">
-            Rasakan kenyamanan hidup premium dengan konsep modern superblock terintegrasi. Akses
-            langsung 0 km ke Gerbang Tol JORR &amp; Becakayu untuk konektivitas tanpa batas.
-          </p>
-          <div class="hf-actions">
-            <a href="#clusters" class="hf-btn hf-btn-primary">Lihat Proyek</a>
-            <a href="#virtual-tour" class="hf-btn hf-btn-secondary">Jelajah 3D Virtual Tour</a>
+    <div id="root">
+      <!-- Static hero — diganti React pada mount pertama (satu sumber tinggi, tanpa double-stack) -->
+      <div id="hero-fallback">
+        <section id="hero">
+          <div class="hf-inner">
+            <div class="hf-badge">THE GOLDEN ACCESS SUPERBLOCK</div>
+            <h1>Elevate Your Lifestyle In Bekasi&apos;s Premium Haven</h1>
+            <p class="hf-lead">
+              Rasakan kenyamanan hidup premium dengan konsep modern superblock terintegrasi. Akses
+              langsung 0 km ke Gerbang Tol JORR &amp; Becakayu untuk konektivitas tanpa batas.
+            </p>
+            <div class="hf-actions">
+              <a href="#clusters" class="hf-btn hf-btn-primary">Lihat Proyek</a>
+              <a href="#virtual-tour" class="hf-btn hf-btn-secondary">Jelajah 3D Virtual Tour</a>
+            </div>
+            <div class="hf-features" aria-hidden="true">
+              <div class="hf-feature">
+                <div class="hf-feature-icon"></div>
+                <div>
+                  <strong>0 KM ke Tol JORR</strong>
+                  <span>Akses langsung gerbang utama</span>
+                </div>
+              </div>
+              <div class="hf-feature">
+                <div class="hf-feature-icon"></div>
+                <div>
+                  <strong>5 Menit ke LRT</strong>
+                  <span>Stasiun Cikunir &amp; Jatibening</span>
+                </div>
+              </div>
+              <div class="hf-feature">
+                <div class="hf-feature-icon"></div>
+                <div>
+                  <strong>24/7 Security &amp; Gates</strong>
+                  <span>Sistem keamanan tiga lapis</span>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
-
-    <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
