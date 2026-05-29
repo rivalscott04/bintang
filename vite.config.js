@@ -25,6 +25,8 @@ export default defineConfig({
     open: true,
   },
   build: {
+    // Lighthouse: source maps for large first-party chunks (e.g. three-*.js)
+    sourcemap: true,
     modulePreload: {
       resolveDependencies: (_filename, deps) =>
         deps.filter((dep) => !dep.includes('three-') && !dep.includes('leaflet-')),

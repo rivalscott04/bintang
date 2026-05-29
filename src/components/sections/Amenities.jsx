@@ -40,8 +40,9 @@ export default function Amenities() {
                 key={cat.id}
                 type="button"
                 onClick={() => handleCategoryChange(cat.id, cat.label)}
+                aria-pressed={isActive}
                 className={[
-                  'flex items-center gap-2 px-5 py-2.5 rounded-full font-display font-semibold text-[0.85rem] cursor-pointer transition-all duration-400 ease-luxury border',
+                  'flex items-center gap-2 px-5 py-3 min-h-[44px] rounded-full font-display font-semibold text-[0.85rem] cursor-pointer transition-all duration-400 ease-luxury border',
                   isActive
                     ? 'bg-primary text-white border-primary'
                     : 'bg-surface text-ink border-primary/5 hover:bg-primary hover:text-white hover:border-primary',
@@ -55,24 +56,20 @@ export default function Amenities() {
 
         <div className="grid grid-cols-[420px_1fr] max-lg:grid-cols-[340px_1fr] max-md:grid-cols-1 gap-8 h-[480px] max-md:h-auto">
           <div className="overflow-y-auto pr-2 flex flex-col gap-3 scrollbar-luxury">
+            <h3 className="sr-only">Daftar lokasi terdekat</h3>
             {visibleLocations.map((loc) => {
               const style = CATEGORY_STYLE[loc.category];
               const isActive =
                 activeLocation?.kind === 'location' && activeLocation.name === loc.name;
               return (
-                <div
+                <button
                   key={loc.name}
+                  type="button"
                   onClick={() => handleLocationClick(loc)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      handleLocationClick(loc);
-                    }
-                  }}
+                  aria-label={`${loc.name}, ${loc.time}`}
+                  aria-pressed={isActive}
                   className={[
-                    'group flex items-center gap-4 p-4 rounded-sm cursor-pointer transition-all duration-400 ease-luxury',
+                    'group flex items-center gap-4 p-4 rounded-sm cursor-pointer transition-all duration-400 ease-luxury text-left w-full min-h-[48px]',
                     isActive
                       ? 'bg-white border border-secondary shadow-soft'
                       : 'bg-surface border border-primary/3 hover:bg-white hover:border-secondary hover:shadow-soft',
@@ -89,10 +86,10 @@ export default function Amenities() {
                     <i className={style.faIcon} />
                   </span>
                   <div>
-                    <h4 className="text-[0.95rem] mb-0.5">{loc.name}</h4>
+                    <span className="block text-[0.95rem] mb-0.5 font-bold text-primary">{loc.name}</span>
                     <span className="text-[0.75rem] text-mute">{loc.time}</span>
                   </div>
-                </div>
+                </button>
               );
             })}
           </div>

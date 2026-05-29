@@ -32,7 +32,7 @@ export default function Toast({ toast, onClose }) {
         type="button"
         onClick={onClose}
         aria-label="Tutup notifikasi"
-        className="bg-transparent border-none text-white/40 text-[1.1rem] cursor-pointer transition-colors hover:text-white"
+        className="bg-transparent border-none text-white/40 text-[1.1rem] cursor-pointer transition-colors hover:text-white min-w-[44px] min-h-[44px] flex items-center justify-center shrink-0"
       >
         <i className="fa-solid fa-xmark" />
       </button>

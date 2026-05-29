@@ -80,6 +80,41 @@ function MapController({ flyTarget, fitBounds, markerRefs }) {
   return null;
 }
 
+/** Labels Leaflet zoom/close controls for screen readers. */
+function MapA11y() {
+  const map = useMap();
+
+  useEffect(() => {
+    const root = map.getContainer();
+
+    const labelZoomControls = () => {
+      const zoomIn = root.querySelector('.leaflet-control-zoom-in');
+      const zoomOut = root.querySelector('.leaflet-control-zoom-out');
+      if (zoomIn) {
+        zoomIn.setAttribute('aria-label', 'Perbesar peta');
+        zoomIn.setAttribute('title', 'Perbesar peta');
+      }
+      if (zoomOut) {
+        zoomOut.setAttribute('aria-label', 'Perkecil peta');
+        zoomOut.setAttribute('title', 'Perkecil peta');
+      }
+    };
+
+    const labelPopupCloseButtons = () => {
+      root.querySelectorAll('.leaflet-popup-close-button').forEach((btn) => {
+        btn.setAttribute('aria-label', 'Tutup popup lokasi');
+        btn.setAttribute('title', 'Tutup popup lokasi');
+      });
+    };
+
+    labelZoomControls();
+    map.on('popupopen', labelPopupCloseButtons);
+    return () => map.off('popupopen', labelPopupCloseButtons);
+  }, [map]);
+
+  return null;
+}
+
 export default function AmenitiesMap({ locations, flyTarget }) {
   const markerRefs = useRef({});
 
@@ -158,6 +193,7 @@ export default function AmenitiesMap({ locations, flyTarget }) {
       ))}
 
       <MapController flyTarget={flyTarget} fitBounds={fitBounds} markerRefs={markerRefs} />
+      <MapA11y />
     </MapContainer>
   );
 }

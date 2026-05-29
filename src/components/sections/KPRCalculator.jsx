@@ -139,7 +139,9 @@ export default function KPRCalculator() {
           </div>
 
           <div className="bg-primary text-white p-12 max-lg:p-8 flex flex-col justify-center border-l border-white/5 max-md:border-l-0 max-md:border-t">
-            <h3 className="text-white text-[1.3rem] mb-6 text-center">Estimasi Angsuran Anda</h3>
+            <p className="text-white text-[1.3rem] mb-6 text-center font-display font-bold">
+              Estimasi Angsuran Anda
+            </p>
 
             <div className="bg-white/5 border border-white/10 rounded-md p-6 text-center mb-8">
               <span className="text-[0.8rem] tracking-wider text-white/60 block mb-2 uppercase">

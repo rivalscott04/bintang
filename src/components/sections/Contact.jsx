@@ -101,7 +101,7 @@ export default function Contact({ onSubmit }) {
         <div className="grid grid-cols-[1fr_520px] max-lg:grid-cols-[1fr_420px] max-md:grid-cols-1 gap-12 max-lg:gap-8 items-start">
           <div className="flex flex-col gap-8">
             <div className="bg-surface rounded-md p-9 border border-primary/2">
-              <h3 className="text-[1.4rem] mb-4">Marketing Gallery</h3>
+              <h3 className="text-[1.4rem] mb-4 font-bold">Marketing Gallery</h3>
               <p className="text-base text-mute mb-4 flex gap-3">
                 <i className="fa-solid fa-location-dot text-secondary mt-1" /> {COMPANY_ADDRESS}
               </p>

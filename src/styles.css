@@ -232,13 +232,15 @@ input[type="range"] {
   );
   outline: none;
   cursor: pointer;
+  min-height: 44px;
+  padding: 10px 0;
 }
 
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background:
     radial-gradient(circle at 32% 28%, #34527d 0%, #18345b 45%, var(--color-primary) 100%);
@@ -267,8 +269,8 @@ input[type="range"]::-webkit-slider-thumb:active {
 }
 
 input[type="range"]::-moz-range-thumb {
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background:
     radial-gradient(circle at 32% 28%, #34527d 0%, #18345b 45%, var(--color-primary) 100%);
@@ -340,11 +342,19 @@ input[type="range"]:focus-visible::-webkit-slider-thumb {
   background-color: var(--color-primary) !important;
   color: var(--color-secondary-light) !important;
   border: none !important;
-  width: 36px !important;
-  height: 36px !important;
-  line-height: 36px !important;
+  width: 44px !important;
+  height: 44px !important;
+  line-height: 44px !important;
   font-size: 1.1rem !important;
   transition: all 0.4s var(--ease-luxury);
+}
+
+.leaflet-popup-close-button {
+  min-width: 44px !important;
+  min-height: 44px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 .leaflet-control-zoom a:hover {
@@ -366,4 +376,16 @@ input[type="range"]:focus-visible::-webkit-slider-thumb {
   @apply absolute -top-24 left-5 bg-secondary text-primary px-5 py-2.5
          rounded-sm z-9999 font-bold transition-[top] duration-200
          focus:top-5;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }

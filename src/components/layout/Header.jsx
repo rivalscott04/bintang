@@ -32,6 +32,7 @@ export default function Header() {
           </a>
 
           <nav
+            aria-label="Navigasi utama"
             className={[
               'max-md:fixed max-md:top-0 max-md:h-screen max-md:w-4/5 max-md:max-w-xs',
               'max-md:bg-primary max-md:z-1000 max-md:pt-[100px] max-md:px-10 max-md:pb-10',
@@ -40,6 +41,7 @@ export default function Header() {
               'max-md:transition-[right] max-md:duration-400 max-md:ease-luxury',
               isOpen ? 'max-md:right-0' : 'max-md:-right-full',
             ].join(' ')}
+            id="mobile-nav"
           >
             <ul className="list-none flex items-center gap-9 max-md:flex-col max-md:items-start max-md:gap-6">
               {NAV_LINKS.map((link) => {
@@ -77,13 +79,14 @@ export default function Header() {
 
         <button
           type="button"
-          aria-label="Buka Menu Navigasi"
+          aria-label={isOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
           aria-expanded={isOpen}
+          aria-controls="mobile-nav"
           onClick={(e) => {
             e.stopPropagation();
             toggle();
           }}
-          className="hidden"
+          className="md:hidden flex flex-col justify-center items-center gap-1.5 w-11 h-11 min-w-[44px] min-h-[44px] rounded-sm border border-primary/10 bg-white/90 shrink-0"
         >
           <span
             className={[

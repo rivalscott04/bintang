@@ -55,11 +55,11 @@ export default function VirtualTour() {
                 </span>
               </div>
 
-              <h3 className="text-white text-[1.8rem] max-md:text-[1.4rem] mb-3 font-bold leading-tight">
+              <p className="text-white text-[1.8rem] max-md:text-[1.4rem] mb-3 font-bold leading-tight font-display">
                 Masuki Cluster Marocco
                 <br />
                 <span className="text-secondary">Dalam Ruang Tiga Dimensi</span>
-              </h3>
+              </p>
 
               <p className="text-white/75 text-[0.95rem] max-md:text-[0.85rem] mb-7 font-light leading-relaxed">
                 Kamera otomatis menjelajah 4 ruangan dengan gerakan sinematik, atau ambil kendali sendiri untuk
@@ -69,7 +69,8 @@ export default function VirtualTour() {
               <button
                 type="button"
                 onClick={() => setTourActive(true)}
-                className="btn-primary btn-large group/btn"
+                aria-label="Mulai tur virtual 3D Cluster Marocco"
+                className="btn-primary btn-large group/btn min-h-[48px]"
               >
                 <i className="fa-solid fa-play transition-transform duration-300 group-hover/btn:scale-110" />
                 Mulai Tur Virtual 3D
@@ -104,7 +105,7 @@ export default function VirtualTour() {
                 <div className="w-20 h-20 mx-auto mb-5 rounded-full bg-white/10 border border-secondary/30 flex items-center justify-center text-3xl text-secondary animate-pulse-glow">
                   <i className="fa-solid fa-circle-notch fa-spin" />
                 </div>
-                <h3 className="text-white font-display text-xl mb-2">Memuat Engine 3D...</h3>
+                <p className="text-white font-display text-xl mb-2 font-bold">Memuat Engine 3D...</p>
                 <p className="text-white/60 text-sm font-light">Mengunduh library Three.js (sekali saja).</p>
               </div>
             </div>

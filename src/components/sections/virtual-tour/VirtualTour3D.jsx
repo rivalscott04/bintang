@@ -61,6 +61,9 @@ export default function VirtualTour3D({ onClose }) {
 
   return (
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="vt-dialog-title"
       className="fixed inset-x-0 top-0 z-200 bg-night animate-vt-fade-in"
       style={{
         // 100dvh = dynamic viewport height (adapt ke visible area saat address bar mobile
@@ -70,6 +73,10 @@ export default function VirtualTour3D({ onClose }) {
         touchAction: 'none',
       }}
     >
+      <h2 id="vt-dialog-title" className="sr-only">
+        Tur virtual 3D Cluster Marocco
+      </h2>
+
       {/* === CANVAS 3D === */}
       <Canvas
         shadows={!isMobile}
@@ -99,7 +106,7 @@ export default function VirtualTour3D({ onClose }) {
             <div className="w-20 h-20 mx-auto mb-5 rounded-full bg-white/10 border border-secondary/30 flex items-center justify-center text-3xl text-secondary animate-pulse-glow">
               <i className="fa-solid fa-cube fa-spin" />
             </div>
-            <h3 className="text-white font-display text-xl mb-2">Memuat Ruang 3D...</h3>
+            <p className="text-white font-display text-xl mb-2 font-bold">Memuat Ruang 3D...</p>
             <p className="text-white/60 text-sm font-light">Menyiapkan tekstur & lighting interior premium.</p>
           </div>
         </div>
@@ -136,7 +143,7 @@ export default function VirtualTour3D({ onClose }) {
             type="button"
             onClick={() => handleModeChange('manual')}
             aria-label="Mode Jelajah Bebas"
-            className={`px-3 md:px-4 py-2 rounded-sm font-display text-[0.7rem] md:text-xs font-bold transition-all duration-300 ease-luxury flex items-center gap-1.5 md:gap-2 ${
+            className={`px-3 md:px-4 py-2 min-h-[44px] rounded-sm font-display text-[0.7rem] md:text-xs font-bold transition-all duration-300 ease-luxury flex items-center gap-1.5 md:gap-2 ${
               mode === 'manual'
                 ? 'bg-secondary text-primary shadow-glow'
                 : 'text-white/70 hover:text-white hover:bg-white/5'
@@ -150,7 +157,7 @@ export default function VirtualTour3D({ onClose }) {
             type="button"
             onClick={() => handleModeChange('cinematic')}
             aria-label="Mode Preview Otomatis"
-            className={`px-3 md:px-4 py-2 rounded-sm font-display text-[0.7rem] md:text-xs font-bold transition-all duration-300 ease-luxury flex items-center gap-1.5 md:gap-2 ${
+            className={`px-3 md:px-4 py-2 min-h-[44px] rounded-sm font-display text-[0.7rem] md:text-xs font-bold transition-all duration-300 ease-luxury flex items-center gap-1.5 md:gap-2 ${
               mode === 'cinematic'
                 ? 'bg-secondary text-primary shadow-glow'
                 : 'text-white/70 hover:text-white hover:bg-white/5'
@@ -167,7 +174,7 @@ export default function VirtualTour3D({ onClose }) {
           type="button"
           onClick={onClose}
           aria-label="Tutup Virtual Tour"
-          className="pointer-events-auto w-11 h-11 rounded-md bg-night/60 backdrop-blur-md border border-white/10 text-white hover:bg-secondary hover:text-primary hover:border-secondary transition-all duration-300 ease-luxury flex items-center justify-center"
+          className="pointer-events-auto w-11 h-11 min-w-[44px] min-h-[44px] rounded-md bg-night/60 backdrop-blur-md border border-white/10 text-white hover:bg-secondary hover:text-primary hover:border-secondary transition-all duration-300 ease-luxury flex items-center justify-center"
         >
           <i className="fa-solid fa-xmark text-lg" />
         </button>
@@ -214,9 +221,9 @@ export default function VirtualTour3D({ onClose }) {
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-baseline justify-between gap-3 mb-1">
-                <h3 className="text-white font-display font-bold text-base leading-tight">
+                <p className="text-white font-display font-bold text-base leading-tight">
                   {activeRoom.name}
-                </h3>
+                </p>
                 <span className="text-secondary font-display font-bold text-xs whitespace-nowrap">
                   {activeRoom.specs.area}
                 </span>
@@ -253,9 +260,9 @@ export default function VirtualTour3D({ onClose }) {
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-baseline gap-2 mb-0.5">
-                <h3 className="text-white font-display font-bold text-sm leading-tight truncate">
+                <p className="text-white font-display font-bold text-sm leading-tight truncate">
                   {activeRoom.name}
-                </h3>
+                </p>
                 <span className="text-secondary font-display font-bold text-[0.7rem] whitespace-nowrap">
                   · {activeRoom.specs.area}
                 </span>
@@ -275,7 +282,7 @@ export default function VirtualTour3D({ onClose }) {
                   type="button"
                   onClick={() => handleRoomChange(room.id)}
                   aria-label={`Pindah ke ${room.name}`}
-                  className={`flex-1 min-w-[78px] flex flex-col items-center gap-1 px-2 py-2 rounded-md font-display text-[0.65rem] font-bold transition-all duration-300 ease-luxury ${
+                  className={`flex-1 min-w-[78px] min-h-[44px] flex flex-col items-center justify-center gap-1 px-2 py-2 rounded-md font-display text-[0.65rem] font-bold transition-all duration-300 ease-luxury ${
                     activeRoomId === room.id
                       ? 'bg-secondary text-primary shadow-glow'
                       : 'bg-white/5 text-white/70 active:bg-white/10'
@@ -309,8 +316,8 @@ export default function VirtualTour3D({ onClose }) {
           <button
             type="button"
             onClick={() => handleModeChange('manual')}
-            title="Stop preview & ambil kendali manual"
-            className="ml-1 px-3 py-1.5 rounded-sm bg-secondary text-primary font-display font-bold text-[0.65rem] uppercase tracking-wider hover:bg-white active:bg-white hover:text-primary transition-colors duration-300 ease-luxury flex items-center gap-1.5 shrink-0"
+            aria-label="Hentikan preview otomatis dan jelajah manual"
+            className="ml-1 px-3 py-2 min-h-[44px] rounded-sm bg-secondary text-primary font-display font-bold text-[0.65rem] uppercase tracking-wider hover:bg-white active:bg-white hover:text-primary transition-colors duration-300 ease-luxury flex items-center gap-1.5 shrink-0"
           >
             <i className="fa-solid fa-stop" />
             Stop
@@ -356,7 +363,8 @@ export default function VirtualTour3D({ onClose }) {
           <button
             type="button"
             onClick={() => setShowHelp(false)}
-            className="mt-3 w-full text-center text-[0.7rem] text-secondary hover:text-white font-display font-bold uppercase tracking-wider transition-colors"
+            aria-label="Tutup panduan cara pakai"
+            className="mt-3 w-full min-h-[44px] text-center text-[0.7rem] text-secondary hover:text-white font-display font-bold uppercase tracking-wider transition-colors"
           >
             Mengerti, Tutup
           </button>
@@ -382,7 +390,7 @@ export default function VirtualTour3D({ onClose }) {
               type="button"
               onClick={() => setShowHelp(false)}
               aria-label="Tutup bantuan"
-              className="text-white/60 hover:text-white shrink-0 -mt-1 -mr-1 p-1"
+              className="text-white/60 hover:text-white shrink-0 -mt-1 -mr-1 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center"
             >
               <i className="fa-solid fa-xmark text-sm" />
             </button>

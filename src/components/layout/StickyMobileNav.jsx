@@ -5,16 +5,17 @@ export default function StickyMobileNav() {
   const handleScroll = useSmoothScroll();
 
   return (
-    <div
-      className="flex md:hidden fixed bottom-0 left-0 w-full bg-primary backdrop-blur-md border-t border-white/10 z-998 justify-around items-center"
+    <nav
+      aria-label="Navigasi mobile cepat"
+      className="flex md:hidden fixed bottom-0 left-0 w-full bg-primary backdrop-blur-md border-t border-white/10 z-998 justify-around items-stretch"
       style={{
-        height: 'calc(68px + env(safe-area-inset-bottom))',
+        height: 'calc(72px + env(safe-area-inset-bottom))',
         paddingBottom: 'env(safe-area-inset-bottom)',
       }}
     >
       {STICKY_NAV_ITEMS.map((item) => {
         const baseClass =
-          'flex flex-col items-center gap-1 no-underline text-[0.65rem] font-medium w-1/5 transition-colors duration-400 ease-luxury';
+          'flex flex-col items-center justify-center gap-1 no-underline text-[0.65rem] font-medium flex-1 min-h-[48px] min-w-[48px] px-1 py-2 transition-colors duration-400 ease-luxury';
 
         const isCta = item.highlight;
         const colorClass = isCta ? 'text-[#25D366]' : 'text-white/60 hover:text-secondary focus:text-secondary';
@@ -23,6 +24,7 @@ export default function StickyMobileNav() {
           <a
             key={item.id}
             href={item.href}
+            aria-label={item.label}
             target={item.external ? '_blank' : undefined}
             rel={item.external ? 'noreferrer' : undefined}
             onClick={item.external ? undefined : handleScroll}
@@ -39,6 +41,6 @@ export default function StickyMobileNav() {
           </a>
         );
       })}
-    </div>
+    </nav>
   );
 }
