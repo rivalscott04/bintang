@@ -1,11 +1,11 @@
 import { useState, useEffect, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
+import { useGLTF } from '@react-three/drei';
 import Scene from './Scene';
-import { ROOMS } from '../../../data/virtualTourRooms';
 import { useIsMobile } from '../../../hooks/useIsMobile';
 
 /**
- * VirtualTour3D — fullscreen modal yang berisi 3D scene + UI overlay.
+ * VirtualTour3D: fullscreen modal yang berisi 3D scene + UI overlay.
  *
  * Layout adaptif:
  *  - Desktop (≥768px): sidebar ruangan di kiri, top bar dengan title + mode toggle, help di kanan.
@@ -16,14 +16,25 @@ import { useIsMobile } from '../../../hooks/useIsMobile';
  *  - Mobile: dpr cap=1.25, shadows OFF, point lights & HDRI di-skip via prop isMobile ke Scene.
  *  - Desktop: dpr cap=1.8, shadows ON, full lighting setup.
  */
-export default function VirtualTour3D({ onClose }) {
+export default function VirtualTour3D({ onClose, tourConfig, meta }) {
   const isMobile = useIsMobile();
+  const rooms = tourConfig?.rooms ?? [];
+  const initialRoomId = rooms[0]?.id ?? 'living-room';
   const [mode, setMode] = useState('manual');
-  const [activeRoomId, setActiveRoomId] = useState('living-room');
+  const [activeRoomId, setActiveRoomId] = useState(initialRoomId);
   const [showHelp, setShowHelp] = useState(true);
   const [isReady, setIsReady] = useState(false);
 
-  const activeRoom = ROOMS.find((r) => r.id === activeRoomId);
+  const activeRoom = rooms.find((r) => r.id === activeRoomId);
+  const modalSubtitle = meta?.modal?.subtitle ?? 'Virtual Tour 3D';
+
+  useEffect(() => {
+    for (const room of rooms) {
+      if (room.modelUrl) {
+        useGLTF.preload(room.modelUrl);
+      }
+    }
+  }, [rooms]);
 
   // Lock body scroll selama modal aktif
   useEffect(() => {
@@ -74,7 +85,7 @@ export default function VirtualTour3D({ onClose }) {
       }}
     >
       <h2 id="vt-dialog-title" className="sr-only">
-        Tur virtual 3D Cluster Marocco
+        Tur virtual 3D: {modalSubtitle}
       </h2>
 
       {/* === CANVAS 3D === */}
@@ -95,6 +106,7 @@ export default function VirtualTour3D({ onClose }) {
             activeRoomId={activeRoomId}
             onRoomChange={handleRoomChange}
             isMobile={isMobile}
+            tourConfig={tourConfig}
           />
         </Suspense>
       </Canvas>
@@ -121,23 +133,23 @@ export default function VirtualTour3D({ onClose }) {
         className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between gap-2 pointer-events-none px-3 md:px-5"
         style={{ paddingTop: 'max(0.75rem, env(safe-area-inset-top))' }}
       >
-        {/* Title — desktop only */}
+        {/* Title: desktop only */}
         <div className="hidden md:flex items-center gap-3 pointer-events-auto bg-night/60 backdrop-blur-md border border-white/10 rounded-md px-4 py-2.5">
           <i className="fa-solid fa-vr-cardboard text-secondary text-lg" />
           <div className="leading-tight">
             <div className="text-[0.65rem] uppercase tracking-[2px] text-secondary font-display font-bold">
               Virtual Tour 3D
             </div>
-            <div className="text-white font-display font-bold text-sm">Cluster Marocco · Tipe 78/120</div>
+            <div className="text-white font-display font-bold text-sm">{modalSubtitle}</div>
           </div>
         </div>
 
-        {/* Title — mobile: just icon button (saves space) */}
+        {/* Title: mobile: just icon button (saves space) */}
         <div className="md:hidden pointer-events-auto bg-night/60 backdrop-blur-md border border-white/10 rounded-md w-11 h-11 flex items-center justify-center text-secondary">
           <i className="fa-solid fa-vr-cardboard text-lg" />
         </div>
 
-        {/* Mode toggle — works on both, compact on mobile */}
+        {/* Mode toggle: works on both, compact on mobile */}
         <div className="pointer-events-auto bg-night/60 backdrop-blur-md border border-white/10 rounded-md p-1 flex items-center gap-1">
           <button
             type="button"
@@ -181,7 +193,7 @@ export default function VirtualTour3D({ onClose }) {
       </div>
 
       {/* ====================================================================
-          DESKTOP — SIDEBAR KIRI (room selector vertical)
+          DESKTOP: SIDEBAR KIRI (room selector vertical)
           ==================================================================== */}
       <div
         className={`hidden md:block absolute left-5 top-1/2 -translate-y-1/2 z-20 transition-all duration-500 ease-luxury ${
@@ -191,7 +203,7 @@ export default function VirtualTour3D({ onClose }) {
         }`}
       >
         <div className="bg-night/60 backdrop-blur-md border border-white/10 rounded-md p-2 flex flex-col gap-1">
-          {ROOMS.map((room) => (
+          {rooms.map((room) => (
             <button
               key={room.id}
               type="button"
@@ -211,7 +223,7 @@ export default function VirtualTour3D({ onClose }) {
       </div>
 
       {/* ====================================================================
-          DESKTOP — BOTTOM CENTER: Room Info Panel (manual mode only)
+          DESKTOP: BOTTOM CENTER: Room Info Panel (manual mode only)
           ==================================================================== */}
       {mode === 'manual' && activeRoom && (
         <div className="hidden md:block absolute bottom-5 left-1/2 -translate-x-1/2 z-20 max-w-[520px] w-[calc(100%-2.5rem)] pointer-events-auto bg-night/70 backdrop-blur-md border border-white/10 rounded-md p-4 animate-vt-slide-up">
@@ -241,7 +253,7 @@ export default function VirtualTour3D({ onClose }) {
       )}
 
       {/* ====================================================================
-          MOBILE — BOTTOM SHEET (info ruangan + horizontal room nav)
+          MOBILE: BOTTOM SHEET (info ruangan + horizontal room nav)
           ==================================================================== */}
       {mode === 'manual' && activeRoom && (
         <div
@@ -253,7 +265,7 @@ export default function VirtualTour3D({ onClose }) {
             <div className="w-10 h-1 bg-white/20 rounded-full" />
           </div>
 
-          {/* Info ruangan aktif — 1 baris compact */}
+          {/* Info ruangan aktif: 1 baris compact */}
           <div className="px-4 pt-1 pb-3 flex items-center gap-3">
             <div className="w-9 h-9 rounded-md bg-secondary/15 border border-secondary/30 flex items-center justify-center text-secondary text-base shrink-0">
               <i className={`fa-solid ${activeRoom.icon}`} />
@@ -273,10 +285,10 @@ export default function VirtualTour3D({ onClose }) {
             </div>
           </div>
 
-          {/* Horizontal room pill nav — scrollable kalau kebanyakan */}
+          {/* Horizontal room pill nav: scrollable kalau kebanyakan */}
           <div className="border-t border-white/5 px-3 py-2.5">
             <div className="flex items-center gap-2 overflow-x-auto scrollbar-luxury -mx-1 px-1">
-              {ROOMS.map((room) => (
+              {rooms.map((room) => (
                 <button
                   key={room.id}
                   type="button"
@@ -300,7 +312,7 @@ export default function VirtualTour3D({ onClose }) {
       )}
 
       {/* ====================================================================
-          CINEMATIC NOW PLAYING — bottom center, both desktop + mobile
+          CINEMATIC NOW PLAYING: bottom center, both desktop + mobile
           ==================================================================== */}
       {mode === 'cinematic' && activeRoom && (
         <div
@@ -326,7 +338,7 @@ export default function VirtualTour3D({ onClose }) {
       )}
 
       {/* ====================================================================
-          HELP — DESKTOP (sidebar kanan)
+          HELP: DESKTOP (sidebar kanan)
           ==================================================================== */}
       {showHelp && isReady && !isMobile && (
         <div className="absolute top-1/2 right-5 -translate-y-1/2 z-20 max-w-[280px] pointer-events-auto bg-night/85 backdrop-blur-md border border-secondary/30 rounded-md p-4 animate-vt-slide-up shadow-glow">
@@ -372,7 +384,7 @@ export default function VirtualTour3D({ onClose }) {
       )}
 
       {/* ====================================================================
-          HELP — MOBILE (floating bubble di tengah-atas, instruksi touch)
+          HELP: MOBILE (floating bubble di tengah-atas, instruksi touch)
           ==================================================================== */}
       {showHelp && isReady && isMobile && (
         <div

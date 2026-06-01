@@ -1,4 +1,4 @@
-/* Leaflet base + Grand Kota Bintang overrides — loaded with the map chunk only */
+/* Leaflet base + Grand Kota Bintang overrides: loaded with the map chunk only */
 @import "leaflet/dist/leaflet.css";
 
 .leaflet-popup-content-wrapper {

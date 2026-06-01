@@ -35,6 +35,12 @@ export default defineConfig({
   server: {
     port: 5173,
     open: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
+    },
   },
   build: {
     // Lighthouse: source maps for large first-party chunks (e.g. three-*.js)
@@ -44,7 +50,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks(id) {
-          // React must stay out of the three chunk — otherwise index.js pulls ~1MB on first paint.
+          // React must stay out of the three chunk: otherwise index.js pulls ~1MB on first paint.
           if (
             id.includes('node_modules/react-dom') ||
             id.includes('node_modules/react/') ||
@@ -55,7 +61,7 @@ export default defineConfig({
           if (id.includes('node_modules/leaflet') || id.includes('react-leaflet')) {
             return 'leaflet';
           }
-          // Three.js: jangan manualChunk — biar hanya ikut dynamic import VirtualTour3D.
+          // Three.js: jangan manualChunk: biar hanya ikut dynamic import VirtualTour3D.
         },
       },
     },

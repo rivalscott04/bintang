@@ -1,102 +1,72 @@
-# Grand Kota Bintang — React App
+# Grand Kota Bintang
 
-Landing page premium superblock **Grand Kota Bintang** yang sebelumnya statis (HTML/CSS/JS) sekarang sudah di-rewrite ke **React 18 + Vite** dengan struktur modular agar mudah dimaintain.
+**Situs resmi pemasaran digital** untuk superblock terintegrasi **Grand Kota Bintang**, kawasan hunian dan komersial premium di Bekasi Barat, dengan akses strategis ke jaringan tol, LRT Jabodebek, dan pusat aktivitas sekitarnya.
 
-## Tech Stack
+Aplikasi ini dirancang agar calon pembeli dan investor dapat **menjelajahi proyek secara mandiri**, memahami nilai lokasi, membandingkan unit, dan **langsung terhubung ke tim sales**, kapan saja, dari perangkat apa pun.
 
-- **React 18** — UI library
-- **Vite 5** — Dev server & build tool
-- **Tailwind CSS v4** — Utility-first styling (token-driven via `@theme`)
-- **react-leaflet** + **leaflet** — Interactive map (Lokasi & Fasilitas)
-- **Font Awesome 6** (via CDN) — Icon set
-- **Google Fonts** — Plus Jakarta Sans + Outfit
+## Tentang Aplikasi
 
-## Cara Menjalankan (pakai Bun)
+Grand Kota Bintang adalah pengalaman digital lengkap untuk memperkenalkan kawasan seluas lebih dari **72 hektar**: mulai dari gambaran umum superblock, profil tiap klaster hunian, katalog unit residensial dan komersial, hingga alat bantu keputusan seperti simulasi KPR dan formulir minat.
 
-> Project ini menggunakan **[Bun](https://bun.sh)** sebagai package manager + runner. Pastikan sudah install bun (`curl -fsSL https://bun.sh/install | bash`).
+Seluruh konten disajikan dengan tampilan **premium dan konsisten**, mencerminkan positioning proyek sebagai hunian dan investasi kelas atas, tanpa mengorbankan kemudahan navigasi di desktop maupun ponsel.
 
-```bash
-# 1. Install dependency
-bun install
+## Fitur Utama
 
-# 2. Jalankan dev server (otomatis buka http://localhost:5173)
-bun run dev
+### Beranda & Profil Kawasan
 
-# 3. Build untuk production (output ke folder dist/)
-bun run build
+Sambutan visual dengan sorotan keunggulan lokasi (akses tol, LRT, keamanan kawasan). Ringkasan klaster unggulan dan unit yang tersedia. Profil developer, rekam jejak, dan statistik kawasan. Formulir kontak untuk menangkap minat pengunjung.
 
-# 4. Preview hasil build
-bun run preview
-```
+### Klaster Hunian
 
-Script di `package.json` sudah pakai `bunx --bun vite` supaya Vite dijalankan oleh runtime Bun (lebih cepat dibanding Node).
+Daftar klaster residensial dan komersial dengan gambar, harga indikatif, dan ringkasan spesifikasi. Halaman detail per klaster berisi deskripsi lengkap, keunggulan, serta **denah site plan interaktif** yang menampilkan status ketersediaan unit per blok. Setiap klaster juga menyediakan **tur virtual 3D** agar calon pembeli dapat merasakan suasana unit sebelum kunjungan lapangan.
 
-## Struktur Folder
+### Katalog Unit (Projek)
 
-```
-grandbintang/
-├── public/
-│   └── assets/                  # Gambar (logo, cluster, dll.)
-├── src/
-│   ├── components/
-│   │   ├── layout/              # Header, Footer, FloatingWhatsApp, StickyMobileNav
-│   │   ├── sections/            # Hero, Clusters, VirtualTour, Amenities, KPR, About, Contact
-│   │   └── ui/                  # SectionHeader, Toast (komponen reusable)
-│   ├── data/                    # Konten/data terpisah dari UI
-│   │   ├── about.js
-│   │   ├── amenities.js
-│   │   ├── clusters.js
-│   │   ├── heroFeatures.js
-│   │   ├── navigation.js
-│   │   └── stickyNav.js
-│   ├── hooks/                   # Custom React hooks
-│   │   ├── useMobileMenu.js
-│   │   ├── useSmoothScroll.js
-│   │   └── useToast.js
-│   ├── utils/                   # Pure functions & konstanta
-│   │   ├── calculateMortgage.js
-│   │   ├── constants.js
-│   │   └── formatRupiah.js
-│   ├── App.jsx                  # Compose semua section
-│   ├── main.jsx                 # Entry point React
-│   └── styles.css               # Tailwind import + @theme tokens + leftover CSS
-├── index.html
-├── vite.config.js
-└── package.json
-```
+Daftar seluruh unit dengan filter berdasarkan status (tersedia, reserved, terjual). Halaman detail unit menampilkan galeri foto, highlight keunggulan, spesifikasi bangunan, dan ajakan bertindak. Formulir minat terintegrasi di halaman detail agar calon pembeli tidak perlu mencari cara menghubungi sales.
 
-## Prinsip Maintainability
+### Lokasi & Amenitas Sekitar
 
-1. **Data dipisah dari UI** → Mau ubah price list, lokasi map, daftar amenity, navigasi? Edit di `src/data/*.js` saja, tidak perlu nyentuh komponen.
-2. **Logic dipisah dari render** → Rumus KPR, format rupiah, validasi form, mobile menu state — semua di `utils/` dan `hooks/`.
-3. **1 section = 1 file** → Setiap section landing page punya komponen sendiri di `components/sections/`.
-4. **Reusable UI** → `SectionHeader`, `Toast` dipakai berulang oleh banyak section.
-5. **Tailwind utility classes** → Styling inline langsung di JSX. Design token (warna, font, radius, shadow) didefinisikan sekali di `@theme` di `src/styles.css`.
+**Peta interaktif** fasilitas penting di sekitar kawasan: kuliner & lifestyle, akses transportasi, pendidikan, kesehatan, dan lainnya. Filter kategori membantu pengunjung menemukan informasi yang relevan dengan kebutuhan keluarga atau bisnis mereka.
 
-### Cara Mengubah Theme / Brand Color
+### Tur Virtual 3D
 
-Edit `src/styles.css` di blok `@theme` — semua utility class akan otomatis ikut berubah:
+Penjelajahan ruangan secara imersif dari browser, cocok untuk calon pembeli yang belum bisa datang ke lokasi. Pengalaman tur dapat diakses dari beranda maupun halaman klaster terkait.
 
-```css
-@theme {
-  --color-primary: #0a1931;       /* navy → ganti ke warna brand */
-  --color-secondary: #c5a880;     /* gold → ganti ke aksen brand */
-  --font-display: "Plus Jakarta Sans", sans-serif;
-  --radius-md: 16px;
-  /* dll... */
-}
-```
+### Simulasi KPR
 
-Token-token ini otomatis jadi utility class: `bg-primary`, `text-secondary`, `border-primary-light`, `font-display`, `rounded-md`, `shadow-glow`, `ease-luxury`, dll.
+Kalkulator cicilan untuk membantu calon pembeli memperkirakan angsuran bulanan berdasarkan harga unit, uang muka, tenor, dan suku bunga. Fitur ini mendukung percakapan awal dengan sales dan perencanaan keuangan keluarga.
 
-## Mau Tambah Section / Cluster Baru?
+### Kontak & WhatsApp Sales
 
-- **Tambah cluster baru:** edit `src/data/clusters.js`, tambahkan object baru di array `CLUSTERS`.
-- **Tambah lokasi amenity baru:** edit `src/data/amenities.js`, tambahkan di `AMENITY_LOCATIONS`.
-- **Ubah konten Hero:** edit `src/data/heroFeatures.js` atau text di `src/components/sections/Hero.jsx`.
-- **Ubah nomor WA / kontak:** edit `src/utils/constants.js`.
+Tombol dan formulir yang mengarahkan pengunjung ke **tim sales resmi** via WhatsApp. Navigasi mobile menonjolkan akses cepat ke chat sales dan halaman penting lainnya.
 
-## Catatan
+### Pengelolaan Konten (Tim Internal)
 
-- Endpoint form (`onSubmit`) saat ini masih simulasi (`setTimeout`). Untuk koneksi ke backend nyata (mis. Google Sheets, email API, atau CRM), ganti `handleLeadSubmit` di `src/App.jsx`.
-- Iframe Virtual Tour 360° menggunakan URL dari `src/utils/constants.js` — bisa diubah ke aset internal kalau perlu.
+Panel admin terpisah untuk tim marketing dan sales mengelola proyek, klaster, navigasi, amenitas, tur virtual, pengaturan kontak, dan **daftar prospek (leads)**, sehingga informasi di situs selalu selaras dengan kondisi penjualan terkini.
+
+## Kelebihan
+
+| Aspek | Manfaat bagi pengunjung & bisnis |
+|--------|----------------------------------|
+| **Satu pintu informasi** | Semua yang dibutuhkan calon pembeli, dari gambaran kawasan hingga detail unit, ada dalam satu situs tanpa berpindah ke banyak channel. |
+| **Pengalaman premium** | Desain visual mewah dan konsisten memperkuat citra Grand Kota Bintang sebagai proyek bergengsi. |
+| **Keputusan lebih cepat** | Tur 3D, peta amenitas, dan simulasi KPR mengurangi keraguan dan mempercepat minat untuk konsultasi lanjut. |
+| **Konversi leads terarah** | Formulir dan WhatsApp terintegrasi di titik strategis (beranda, detail unit) sehingga minat tidak hilang di tengah perjalanan browsing. |
+| **Mobile-first** | Navigasi bawah layar dan akses sales yang mudah dijangkau jempol, sesuai kebiasaan pencari properti di Indonesia. |
+| **Konten selalu mutakhir** | Tim internal dapat memperbarui status unit, harga, gambar, dan data amenitas tanpa menunggu perubahan kode situs. |
+| **Lokasi sebagai nilai jual** | Peta dan filter amenitas memvisualkan keunggulan konektivitas (JORR, LRT, fasilitas sekitar) yang sulit disampaikan hanya dengan teks. |
+| **Mendukung berbagai tipe unit** | Dari townhouse residensial hingga ruko komersial, satu platform melayani profil pembeli yang berbeda dengan halaman yang disesuaikan. |
+
+## Siapa yang Diuntungkan?
+
+**Calon pembeli & investor** dapat mengeksplorasi kawasan, membandingkan klaster dan unit, serta menghubungi sales dengan konteks yang jelas.
+
+**Tim marketing & sales** dapat menyajikan materi terstandar, menangkap leads terstruktur, dan menindaklanjuti prospek via WhatsApp.
+
+**Manajemen proyek** dapat memastikan informasi publik (ketersediaan, harga indikatif, amenitas) selaras dengan strategi penjualan.
+
+## Ringkasan Kawasan (Konteks Proyek)
+
+Grand Kota Bintang dikembangkan di kawasan strategis Bekasi Barat dengan rekam jejak developer berpengalaman. Kawasan ini menggabungkan hunian tropis modern, koridor komersial, dan infrastruktur terintegrasi, dengan fokus pada **kenyamanan hidup modern**, **keamanan kawasan**, dan **potensi apresiasi investasi jangka panjang**.
+
+Untuk pertanyaan penjualan resmi, gunakan formulir kontak di situs atau hubungi tim sales melalui kanal WhatsApp yang tercantum di halaman.

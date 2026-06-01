@@ -1,5 +1,5 @@
 /**
- * Virtual Tour 3D — Room Layout & Camera Waypoints
+ * Virtual Tour 3D: Room Layout & Camera Waypoints
  *
  * Konsep: 4 ruangan dalam layout 2x2 grid (denah unit premium 2BR).
  * Koordinat dalam unit Three.js (1 unit ≈ 1 meter).
@@ -38,7 +38,7 @@ export const ROOMS = [
       target: [-5, 1.6, -4],
     },
     furniture: [
-      // Jendela besar di dinding selatan (eksterior) — biar terang & bukan tembok kosong
+      // Jendela besar di dinding selatan (eksterior): biar terang & bukan tembok kosong
       { type: 'box', position: [-5, 1.7, -7.93], size: [3.6, 1.8, 0.04], color: '#a8c8e0', emissive: '#c8def0', emissiveIntensity: 0.4 },
       { type: 'box', position: [-5, 0.75, -7.93], size: [3.8, 0.1, 0.05], color: '#c5a880' }, // kusen bawah
       { type: 'box', position: [-5, 2.65, -7.93], size: [3.8, 0.1, 0.05], color: '#c5a880' }, // kusen atas
@@ -81,7 +81,7 @@ export const ROOMS = [
       target: [5, 1.6, -4],
     },
     furniture: [
-      // Jendela di dinding timur (eksterior) — natural light
+      // Jendela di dinding timur (eksterior): natural light
       { type: 'box', position: [9.93, 1.7, -5], size: [0.04, 1.6, 2.4], color: '#a8c8e0', emissive: '#c8def0', emissiveIntensity: 0.4 },
       { type: 'box', position: [9.93, 0.85, -5], size: [0.05, 0.1, 2.6], color: '#c5a880' },
       { type: 'box', position: [9.93, 2.55, -5], size: [0.05, 0.1, 2.6], color: '#c5a880' },
@@ -125,13 +125,13 @@ export const ROOMS = [
       target: [-5, 1.6, 4],
     },
     furniture: [
-      // Jendela floor-to-ceiling di dinding utara (eksterior) — view timur
+      // Jendela floor-to-ceiling di dinding utara (eksterior): view timur
       { type: 'box', position: [-3, 1.5, 7.93], size: [2.6, 2.4, 0.04], color: '#a8c8e0', emissive: '#c8def0', emissiveIntensity: 0.45 },
       { type: 'box', position: [-3, 0.35, 7.93], size: [2.8, 0.08, 0.05], color: '#3d2f1c' },
       { type: 'box', position: [-3, 2.75, 7.93], size: [2.8, 0.08, 0.05], color: '#3d2f1c' },
       // Wall art besar di dinding timur (di samping pintu)
       { type: 'box', position: [-0.07, 1.8, 6], size: [0.04, 1.4, 1], color: '#5c4a36' },
-      // King size bed — base
+      // King size bed: base
       { type: 'box', position: [-3, 0.3, 4], size: [3, 0.6, 4], color: '#5c4a36' },
       // Mattress
       { type: 'box', position: [-3, 0.75, 4], size: [2.8, 0.3, 3.8], color: '#fafafa' },
@@ -172,13 +172,13 @@ export const ROOMS = [
       target: [5, 1.5, 4],
     },
     furniture: [
-      // Jendela ventilasi di dinding utara (atas bathtub) — bukaan tinggi untuk privacy
+      // Jendela ventilasi di dinding utara (atas bathtub): bukaan tinggi untuk privacy
       { type: 'box', position: [3, 2.3, 7.93], size: [2, 0.8, 0.04], color: '#a8c8e0', emissive: '#c8def0', emissiveIntensity: 0.5 },
       { type: 'box', position: [3, 1.85, 7.93], size: [2.2, 0.08, 0.05], color: '#c5a880' },
       { type: 'box', position: [3, 2.75, 7.93], size: [2.2, 0.08, 0.05], color: '#c5a880' },
       // Wall art di dinding barat
       { type: 'box', position: [0.07, 1.7, 4.5], size: [0.04, 1, 0.7], color: '#2a3a52' },
-      // Bathtub (freestanding) — base oval pakai cylinder
+      // Bathtub (freestanding): base oval pakai cylinder
       { type: 'cylinder', position: [3, 0.35, 5], size: [0.9, 0.9, 0.7], color: '#ffffff' },
       { type: 'box', position: [3, 0.35, 5], size: [2.4, 0.7, 1.4], color: '#ffffff' },
       // Inner basin (lebih gelap biar terlihat berongga)
@@ -201,7 +201,7 @@ export const ROOMS = [
 ];
 
 /**
- * Hotspot connections — antar ruangan via pintu/lorong.
+ * Hotspot connections: antar ruangan via pintu/lorong.
  * Posisi hotspot di dunia 3D, klik = pindah ke kamera view ruangan target.
  */
 export const HOTSPOTS = [
@@ -216,7 +216,7 @@ export const HOTSPOTS = [
 ];
 
 /**
- * Cinematic auto-tour — urutan kamera (waypoints) buat mode "Tur Sinematik".
+ * Cinematic auto-tour: urutan kamera (waypoints) buat mode "Tur Sinematik".
  * Setiap waypoint: [position, target, duration_seconds (durasi transisi dari waypoint sebelumnya), hold_seconds].
  */
 export const CINEMATIC_WAYPOINTS = [

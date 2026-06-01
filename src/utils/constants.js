@@ -1,5 +1,48 @@
-export const WHATSAPP_URL =
-  'https://wa.me/6281234567890?text=Halo%20Sales%20Grand%20Kota%20Bintang%2C%20saya%20tertarik%20dengan%20unit%20perumahan.%20Boleh%20minta%20brosur%20terbaru%20dan%20price%20list-nya%3F';
+export const WHATSAPP_NUMBER = '6281234567890';
+
+export const WHATSAPP_DEFAULT_MESSAGE =
+  'Halo Sales Grand Kota Bintang, saya tertarik dengan unit perumahan. Boleh minta brosur terbaru dan price list-nya?';
+
+export function buildWhatsAppUrl(text = WHATSAPP_DEFAULT_MESSAGE, whatsappNumber = WHATSAPP_NUMBER) {
+  const base = `https://wa.me/${whatsappNumber}`;
+  if (!text) return base;
+  return `${base}?text=${encodeURIComponent(text)}`;
+}
+
+export const WHATSAPP_URL = buildWhatsAppUrl();
+
+/**
+ * Pesan pre-format brosur dari halaman detail proyek.
+ * Nomor dari API `/contact-settings` bila `VITE_API_BASE_URL` aktif.
+ */
+export function buildProjectWhatsAppUrl({
+  name,
+  phone,
+  projectName,
+  clusterName,
+  whatsappNumber = WHATSAPP_NUMBER,
+}) {
+  const trimmedName = name?.trim() ?? '';
+  const project = projectName?.trim() ?? 'unit Grand Kota Bintang';
+  const cluster = clusterName?.trim();
+
+  const lines = [
+    'Halo Grand Kota Bintang,',
+    `Perkenalkan, saya ${trimmedName}.`,
+    cluster
+      ? `Saya tertarik proyek ${project} (Klaster ${cluster}).`
+      : `Saya tertarik proyek ${project}.`,
+    '',
+    'Mohon kirim brosur & price list. Terima kasih.',
+  ];
+
+  return buildWhatsAppUrl(lines.join('\n'), whatsappNumber);
+}
+
+/** Buka WhatsApp (app di HP, web di desktop). */
+export function openWhatsAppUrl(url) {
+  window.location.assign(url);
+}
 
 export const VIRTUAL_TOUR_URL = 'https://grandkotabintang.com/virtualtour/';
 
@@ -14,6 +57,4 @@ export const COMPANY_ADDRESS =
 
 export const WORK_HOURS = 'Buka Setiap Hari: 08:30 - 19:30 WIB';
 
-// Grand Kota Bintang center coordinates (Jl. KH. Noer Ali No.1, Jakasampurna, Bekasi Barat)
-// Source: Google Maps place ID `0x2e698d001c6692bb:0x9a0079d4b9f2f3a8` — https://maps.app.goo.gl/b56MvB8cMK8rbpu1A
 export const GKB_CENTER = [-6.2485143, 106.957341];

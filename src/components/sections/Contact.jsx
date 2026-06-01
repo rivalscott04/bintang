@@ -1,5 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { createLead } from '../../api/leads';
 import { CLUSTER_OPTIONS } from '../../data/clusters';
+import { useClusters } from '../../hooks/useClusters';
+import { useContactSettings } from '../../hooks/useContactSettings';
+import { buildContactLeadPayload, buildContactWhatsAppUrl } from '../../utils/contactLead';
 import {
   COMPANY_ADDRESS,
   COMPANY_WEBSITE,
@@ -51,7 +55,28 @@ const inputClass = (hasError) =>
   ].join(' ');
 
 export default function Contact({ onSubmit }) {
-  const [form, setForm] = useState(INITIAL_FORM);
+  const { clusters } = useClusters();
+  const { whatsappNumber } = useContactSettings();
+  const clusterOptions = useMemo(() => {
+    if (!clusters?.length) {
+      return CLUSTER_OPTIONS;
+    }
+
+    return clusters.map((c) => ({
+      value: c.name,
+      label: c.title,
+    }));
+  }, [clusters]);
+
+  const defaultCluster = clusterOptions[0]?.value ?? INITIAL_FORM.cluster;
+
+  const [form, setForm] = useState({ ...INITIAL_FORM, cluster: defaultCluster });
+
+  useEffect(() => {
+    if (clusterOptions.some((opt) => opt.value === form.cluster)) return;
+    setForm((prev) => ({ ...prev, cluster: defaultCluster }));
+  }, [defaultCluster, clusterOptions, form.cluster]);
+
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
 
@@ -66,7 +91,7 @@ export default function Contact({ onSubmit }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validation = validate(form);
     setErrors(validation);
@@ -82,11 +107,21 @@ export default function Contact({ onSubmit }) {
     }
 
     setSubmitting(true);
-    setTimeout(() => {
-      onSubmit?.({ ...form });
-      setForm(INITIAL_FORM);
-      setSubmitting(false);
-    }, 1200);
+
+    const submitted = { ...form };
+
+    try {
+      await createLead(buildContactLeadPayload(submitted));
+    } catch {
+      // Tetap buka WhatsApp meski penyimpanan lead gagal.
+    }
+
+    const waUrl = buildContactWhatsAppUrl(submitted, whatsappNumber);
+    window.location.assign(waUrl);
+
+    onSubmit?.(submitted);
+    setForm({ ...INITIAL_FORM, cluster: defaultCluster });
+    setSubmitting(false);
   };
 
   return (
@@ -170,7 +205,7 @@ export default function Contact({ onSubmit }) {
                   onChange={updateField('cluster')}
                   className={inputClass(false)}
                 >
-                  {CLUSTER_OPTIONS.map((opt) => (
+                  {clusterOptions.map((opt) => (
                     <option key={opt.value} value={opt.value}>
                       {opt.label}
                     </option>

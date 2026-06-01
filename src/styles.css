@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Self-hosted fonts (latin only) — tanpa rantai fonts.googleapis.com → gstatic */
+/* Self-hosted fonts (latin only): tanpa rantai fonts.googleapis.com → gstatic */
 @import "@fontsource/plus-jakarta-sans/latin-600.css";
 @import "@fontsource/plus-jakarta-sans/latin-700.css";
 @import "@fontsource/plus-jakarta-sans/latin-800.css";
@@ -9,7 +9,7 @@
 @import "@fontsource/outfit/latin-500.css";
 
 /* ==========================================================================
-   1. DESIGN TOKENS (Quiet Luxury — Champagne Gold + Midnight Navy)
+   1. DESIGN TOKENS (Quiet Luxury: Champagne Gold + Midnight Navy)
    Token-token ini otomatis menghasilkan utility class:
    bg-primary, text-secondary, rounded-md, shadow-glow, ease-luxury, dll.
    ========================================================================== */
@@ -56,7 +56,7 @@
     @apply bg-surface text-ink font-body leading-relaxed overflow-x-hidden;
   }
 
-  /* Static LCP hero (index.html) — satu gambar untuk seluruh sesi */
+  /* Static LCP hero (index.html): satu gambar untuk seluruh sesi */
   .hero-lcp-bg {
     position: absolute;
     top: 0;
@@ -171,6 +171,19 @@
 
 .animate-slow-zoom {
   animation: slowZoom 20s infinite alternate;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.45s ease-out;
 }
 
 /* ==========================================================================

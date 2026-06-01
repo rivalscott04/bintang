@@ -6,6 +6,6 @@ export const ABOUT_STATS = [
 ];
 
 export const ABOUT_PARAGRAPHS = [
-  'Grand Kota Bintang adalah proyek superblock terintegrasi bergengsi yang dibangun di atas lahan lebih dari <strong>72 Hektar</strong> di kawasan strategis Bekasi Barat — tepat di simpul konektivitas utama JORR, Becakayu, dan LRT Jabodebek.',
+  'Grand Kota Bintang adalah proyek superblock terintegrasi bergengsi yang dibangun di atas lahan lebih dari <strong>72 Hektar</strong> di kawasan strategis Bekasi Barat, tepat di simpul konektivitas utama JORR, Becakayu, dan LRT Jabodebek.',
   'Dikembangkan oleh tim developer berpengalaman dengan rekam jejak lebih dari satu dekade, kami merancang hunian dan ruko komersial yang tidak hanya indah secara estetika, tetapi juga berorientasi pada nilai investasi jangka panjang dan kenyamanan hidup modern keluarga Indonesia.',
 ];

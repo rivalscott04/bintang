@@ -3,12 +3,12 @@ import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
 /**
- * Easing function — cubic in-out (smooth start & end).
+ * Easing function: cubic in-out (smooth start & end).
  */
 const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
 /**
- * CameraController — handle 2 mode kamera:
+ * CameraController: handle 2 mode kamera:
  *
  * 1. **manual** (free explore): kamera diam di posisi `targetView`,
  *    OrbitControls (di parent) handle rotate/zoom dari user.
@@ -92,7 +92,7 @@ export default function CameraController({
       }
     } else if (mode === 'manual') {
       // Sync orbit controls target dengan posisi terakhir kamera/target
-      // (penting kalau user stop cinematic mid-tour — biar drag langsung natural,
+      // (penting kalau user stop cinematic mid-tour: biar drag langsung natural,
       //  gak orbit di world origin (0,0,0)).
       if (orbitControlsRef?.current) {
         orbitControlsRef.current.target.copy(currentTargetRef.current);

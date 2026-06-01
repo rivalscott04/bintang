@@ -1,9 +1,8 @@
+import { Link } from 'react-router-dom';
 import { HERO_FEATURES } from '../../data/heroFeatures';
-import { useSmoothScroll } from '../../hooks/useSmoothScroll';
+import { clusterTourPath } from '../../utils/routes';
 
 export default function Hero() {
-  const handleScroll = useSmoothScroll();
-
   return (
     <section
       id="hero"
@@ -24,12 +23,12 @@ export default function Hero() {
         </p>
 
         <div className="flex justify-center gap-4 mb-16 max-md:flex-col max-md:gap-3 max-md:items-stretch">
-          <a href="#clusters" className="btn-primary btn-large justify-center" onClick={handleScroll}>
-            Lihat Proyek <i className="fa-solid fa-arrow-down" />
-          </a>
-          <a href="#virtual-tour" className="btn-secondary btn-large justify-center" onClick={handleScroll}>
-            <i className="fa-solid fa-vr-cardboard" /> Jelajah 3D Virtual Tour
-          </a>
+          <Link to="/klaster" className="btn-primary btn-large justify-center">
+            Lihat Klaster Hunian <i className="fa-solid fa-arrow-right" />
+          </Link>
+          <Link to={clusterTourPath('marocco')} className="btn-secondary btn-large justify-center no-underline">
+            <i className="fa-solid fa-vr-cardboard" /> Tur 3D
+          </Link>
         </div>
 
         <div className="grid grid-cols-3 max-md:grid-cols-1 gap-5 max-md:gap-4 bg-white/5 backdrop-blur-lg border border-white/10 rounded-md p-5">

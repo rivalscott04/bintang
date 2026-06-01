@@ -1,5 +1,5 @@
 export const NAV_LINKS = [
-  { href: '#clusters', label: 'Klaster Hunian' },
-  { href: '#virtual-tour', label: 'Tur Virtual' },
-  { href: '#amenities', label: 'Lokasi' },
+  { to: '/klaster', label: 'Klaster Hunian' },
+  { to: '/projek', label: 'Semua Unit' },
+  { to: '/lokasi', label: 'Lokasi' },
 ];

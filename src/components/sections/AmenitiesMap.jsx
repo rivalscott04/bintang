@@ -160,7 +160,7 @@ export default function AmenitiesMap({ locations, flyTarget }) {
         zIndexOffset={1000}
         eventHandlers={{
           add: (e) =>
-            setMarkerA11y(e.target, 'Grand Kota Bintang — pusat proyek, buka detail lokasi'),
+            setMarkerA11y(e.target, 'Grand Kota Bintang, pusat proyek. Buka detail lokasi'),
         }}
       >
         <Popup>
@@ -190,7 +190,7 @@ export default function AmenitiesMap({ locations, flyTarget }) {
               add: (e) =>
                 setMarkerA11y(
                   e.target,
-                  `${loc.name} — ${loc.time}, buka detail lokasi`,
+                  `${loc.name}, ${loc.time}. Buka detail lokasi`,
                 ),
             }}
           >

@@ -1,6 +1,6 @@
 import { useNearViewport } from '../../hooks/useNearViewport';
 
-/** Mount children only when the placeholder nears the viewport — avoids early chunk fetch. */
+/** Mount children only when the placeholder nears the viewport: avoids early chunk fetch. */
 export default function LazyWhenVisible({ children, rootMargin, className, minHeight }) {
   const { ref, isNear } = useNearViewport({ rootMargin });
 

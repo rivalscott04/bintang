@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 /**
- * useIsMobile — track apakah viewport width ≤ breakpoint (default 768px).
+ * useIsMobile: track apakah viewport width ≤ breakpoint (default 768px).
  *
  * Pakai matchMedia listener biar reactive kalau user rotate device atau resize browser.
  * SSR-safe: kalau di server, return false (asumsi desktop sebagai default render).

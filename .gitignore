@@ -11,6 +11,10 @@ build/
 # Internal docs
 quotation.md
 navbar_ui_ux_audit.md
+action_plan_todo_list.md
+stellar_detail_ui_ux_audit.md
+navigation_ux_flow_audit.md
+filament-ai-guidelines/
 
 # Environment
 .env

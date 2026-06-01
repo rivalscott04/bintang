@@ -1,9 +1,11 @@
-import { WHATSAPP_URL } from '../../utils/constants';
+import { useContactSettings } from '../../hooks/useContactSettings';
 
 export default function FloatingWhatsApp() {
+  const { whatsappUrl } = useContactSettings();
+
   return (
     <a
-      href={WHATSAPP_URL}
+      href={whatsappUrl}
       aria-label="Hubungi Sales via WhatsApp"
       target="_blank"
       rel="noreferrer"

@@ -1,20 +1,22 @@
 import { lazy, Suspense, useMemo, useState } from 'react';
-import { AMENITY_CATEGORIES, AMENITY_LOCATIONS, CATEGORY_STYLE } from '../../data/amenities';
+import { AMENITY_CATEGORIES, CATEGORY_STYLE } from '../../data/amenities';
+import { useAmenities } from '../../hooks/useAmenities';
 import SectionHeader from '../ui/SectionHeader';
 
 const AmenitiesMap = lazy(() =>
   import(/* webpackPrefetch: false */ /* webpackPreload: false */ './AmenitiesMap'),
 );
 
-export default function Amenities() {
+export default function Amenities({ embedded = false }) {
+  const { locations, error } = useAmenities();
   const [activeCategory, setActiveCategory] = useState('all');
   const [activeLocation, setActiveLocation] = useState(null);
 
   const visibleLocations = useMemo(() => {
     const group = AMENITY_CATEGORIES.find((c) => c.id === activeCategory);
-    if (!group?.categories) return AMENITY_LOCATIONS;
-    return AMENITY_LOCATIONS.filter((l) => group.categories.includes(l.category));
-  }, [activeCategory]);
+    if (!group?.categories) return locations;
+    return locations.filter((l) => group.categories.includes(l.category));
+  }, [activeCategory, locations]);
 
   const handleCategoryChange = (categoryId, label) => {
     setActiveCategory(categoryId);
@@ -25,13 +27,21 @@ export default function Amenities() {
     setActiveLocation({ kind: 'location', ...loc });
   };
 
+  const Wrapper = embedded ? 'div' : 'section';
+
   return (
-    <section id="amenities" className="py-24 bg-white">
+    <Wrapper id={embedded ? undefined : 'amenities'} className={embedded ? '' : 'py-24 bg-white'}>
       <div className="container-x">
+        {error && (
+          <p className="text-mute text-sm mb-6 text-center" role="status">
+            Peta memakai data cadangan — periksa koneksi API.
+          </p>
+        )}
+
         <SectionHeader
           label="LOKASI STRATEGIS"
           title="Semua Ada di Sekitar Anda"
-          description="Kuliner, hotel, bioskop, hingga sekolah ada di dalam kawasan Grand Kota Bintang — sekaligus terhubung langsung dengan Tol JORR, LRT Jabodebek, dan rumah sakit utama Bekasi Barat."
+          description="Kuliner, hotel, bioskop, hingga sekolah ada di dalam kawasan Grand Kota Bintang, sekaligus terhubung langsung dengan Tol JORR, LRT Jabodebek, dan rumah sakit utama Bekasi Barat."
         />
 
         <div className="flex justify-center gap-3 mb-10 flex-wrap">
@@ -114,7 +124,7 @@ export default function Amenities() {
           </div>
         </div>
       </div>
-    </section>
+    </Wrapper>
   );
 }
 
@@ -135,7 +145,7 @@ function MapInfoBar({ activeLocation }) {
     return (
       <div className={baseClass}>
         <i className="fa-solid fa-filter text-secondary mr-1.5" /> Menampilkan:{' '}
-        <strong>{activeLocation.label}</strong> — klik lokasi di daftar untuk detail
+        <strong>{activeLocation.label}</strong>. Klik lokasi di daftar untuk detail.
       </div>
     );
   }

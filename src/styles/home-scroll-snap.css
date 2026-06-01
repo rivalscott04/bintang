@@ -1,0 +1,66 @@
+/* Scroll snap beranda — Chrome, Safari, Edge (Android & iOS). */
+:root {
+  --home-header-offset: 80px;
+  --home-bottom-offset: 0px;
+  --home-panel-height: calc(100svh - var(--home-header-offset) - var(--home-bottom-offset));
+}
+
+@supports (height: 100dvh) {
+  :root {
+    --home-panel-height: calc(100dvh - var(--home-header-offset) - var(--home-bottom-offset));
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --home-header-offset: 72px;
+    --home-bottom-offset: calc(4.5rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (scroll-snap-type: y proximity) {
+    /* Desktop + Android Chrome/Edge: scroll root = html */
+    html.home-scroll-snap {
+      scroll-snap-type: y proximity;
+      scroll-padding-top: var(--home-header-offset);
+      scroll-padding-bottom: var(--home-bottom-offset);
+      touch-action: pan-y;
+    }
+
+    /*
+     * iOS (Safari, Chrome iOS, Edge iOS): WebKit scroll root = body.
+     * Chrome/Edge di Android tetap pakai html di atas.
+     */
+    html.home-scroll-snap.home-scroll-snap-ios {
+      scroll-snap-type: none;
+      scroll-padding-top: 0;
+      scroll-padding-bottom: 0;
+    }
+
+    html.home-scroll-snap.home-scroll-snap-ios body {
+      scroll-snap-type: y proximity;
+      scroll-padding-top: var(--home-header-offset);
+      scroll-padding-bottom: var(--home-bottom-offset);
+      touch-action: pan-y;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    html.home-scroll-snap .home-snap-section {
+      scroll-snap-align: start;
+      scroll-snap-stop: normal;
+      scroll-margin-top: var(--home-header-offset);
+      scroll-margin-bottom: var(--home-bottom-offset);
+    }
+
+    html.home-scroll-snap .home-snap-section--viewport {
+      min-height: var(--home-panel-height);
+    }
+
+    @media (max-width: 767px) {
+      html.home-scroll-snap main#content {
+        padding-bottom: var(--home-bottom-offset);
+      }
+    }
+  }
+}
