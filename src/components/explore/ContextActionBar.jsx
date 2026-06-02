@@ -33,7 +33,13 @@ export default function ContextActionBar({ items }) {
         }
 
         return (
-          <Link key={item.key} to={item.to} className={className}>
+          <Link
+            key={item.key}
+            to={item.to}
+            className={className}
+            data-contact-cluster={item.contactCluster}
+            data-contact-project={item.contactProject}
+          >
             {item.icon && <i className={item.icon} aria-hidden />}
             {item.label}
           </Link>

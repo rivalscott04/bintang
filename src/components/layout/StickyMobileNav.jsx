@@ -1,7 +1,9 @@
 import { Link, useLocation } from 'react-router-dom';
 import { STICKY_NAV_ITEMS } from '../../data/stickyNav';
+import ContactCtaLink from '../contact/ContactCtaLink';
 import { useContactSettings } from '../../hooks/useContactSettings';
 import { useSmoothScroll } from '../../hooks/useSmoothScroll';
+import { isContactLinkHref } from '../../utils/contactLink';
 
 export default function StickyMobileNav() {
   const { whatsappUrl } = useContactSettings();
@@ -52,12 +54,26 @@ export default function StickyMobileNav() {
           ? 'text-secondary'
           : 'text-white/60 hover:text-secondary focus:text-secondary';
 
+        if (isContactLinkHref(to)) {
+          return (
+            <ContactCtaLink
+              key={item.id}
+              to={to}
+              aria-label={item.label}
+              onClick={isHome ? handleScroll : undefined}
+              className={`${baseClass} ${colorClass}`}
+            >
+              <i className={`${item.icon} text-[1.15rem]`} />
+              <span>{item.label}</span>
+            </ContactCtaLink>
+          );
+        }
+
         return (
           <Link
             key={item.id}
             to={to}
             aria-label={item.label}
-            onClick={isHashLink && isHome ? handleScroll : undefined}
             className={`${baseClass} ${colorClass}`}
           >
             <i className={`${item.icon} text-[1.15rem]`} />

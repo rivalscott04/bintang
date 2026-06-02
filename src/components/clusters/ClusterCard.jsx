@@ -1,13 +1,15 @@
 import { Link } from 'react-router-dom';
-import { useSmoothScroll } from '../../hooks/useSmoothScroll';
+import ContactCtaLink from '../contact/ContactCtaLink';
+import { isContactLinkHref } from '../../utils/contactLink';
 
 export default function ClusterCard({ cluster }) {
-  const handleScroll = useSmoothScroll();
   const slug = cluster.slug ?? cluster.id;
   const hoverHref = cluster.hoverCta?.href ?? `/klaster/${slug}`;
   const hoverIsRoute = hoverHref.startsWith('/') && !hoverHref.startsWith('/#');
+  const hoverIsContact = isContactLinkHref(hoverHref);
   const ctaHref = cluster.cta?.href ?? '/#contact';
   const ctaIsRoute = ctaHref.startsWith('/') && !ctaHref.startsWith('/#');
+  const ctaIsContact = isContactLinkHref(ctaHref);
 
   return (
     <article className="group relative bg-surface rounded-md overflow-hidden shadow-soft border border-primary/3 transition-all duration-400 ease-luxury hover:-translate-y-2 hover:shadow-medium">
@@ -42,12 +44,21 @@ export default function ClusterCard({ cluster }) {
           />
         </picture>
         <div className="absolute inset-0 bg-night/40 opacity-0 flex items-center justify-center transition-opacity duration-400 ease-luxury group-hover:opacity-100 z-5">
-          {hoverIsRoute ? (
+          {hoverIsContact ? (
+            <ContactCtaLink
+              href={hoverHref}
+              cluster={cluster.name}
+              className="btn-primary btn-small"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <i className={cluster.hoverCta?.icon} /> {cluster.hoverCta?.label ?? 'Lihat Detail'}
+            </ContactCtaLink>
+          ) : hoverIsRoute ? (
             <span className="btn-primary btn-small">
               <i className={cluster.hoverCta?.icon} /> {cluster.hoverCta?.label ?? 'Lihat Detail'}
             </span>
           ) : (
-            <a href={hoverHref} className="btn-primary btn-small" onClick={handleScroll}>
+            <a href={hoverHref} className="btn-primary btn-small">
               <i className={cluster.hoverCta?.icon} /> {cluster.hoverCta?.label ?? 'Lihat Detail'}
             </a>
           )}
@@ -74,12 +85,16 @@ export default function ClusterCard({ cluster }) {
           ))}
         </div>
 
-        {ctaIsRoute ? (
+        {ctaIsContact ? (
+          <ContactCtaLink href={ctaHref} cluster={cluster.name} className="btn-outline btn-full">
+            {cluster.cta?.label ?? 'Selengkapnya'} <i className="fa-solid fa-chevron-right" />
+          </ContactCtaLink>
+        ) : ctaIsRoute ? (
           <Link to={ctaHref} className="btn-outline btn-full">
             {cluster.cta?.label ?? 'Selengkapnya'} <i className="fa-solid fa-chevron-right" />
           </Link>
         ) : (
-          <a href={ctaHref} className="btn-outline btn-full" onClick={handleScroll}>
+          <a href={ctaHref} className="btn-outline btn-full">
             {cluster.cta?.label ?? 'Selengkapnya'} <i className="fa-solid fa-chevron-right" />
           </a>
         )}

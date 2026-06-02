@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
+import ContactCtaLink from '../contact/ContactCtaLink';
 import { useNavigation } from '../../hooks/useNavigation';
-import { useSmoothScroll } from '../../hooks/useSmoothScroll';
 import { useContactSettings } from '../../hooks/useContactSettings';
 import AppNavLink from './AppNavLink';
 
@@ -8,7 +8,6 @@ export default function Header() {
   const { whatsappUrl } = useContactSettings();
   const { links: navLinks } = useNavigation();
   const location = useLocation();
-  const handleNavClick = useSmoothScroll();
 
   const onLogoClick = (e) => {
     if (location.pathname === '/') {
@@ -18,12 +17,6 @@ export default function Header() {
         hero.scrollIntoView({ behavior: 'smooth', block: 'start' });
         window.history.pushState(null, '', '/');
       }
-    }
-  };
-
-  const onContactClick = (e) => {
-    if (location.pathname === '/') {
-      handleNavClick(e);
     }
   };
 
@@ -70,9 +63,9 @@ export default function Header() {
           </a>
 
           <div className="hidden md:block">
-            <Link to="/#contact" className="btn-primary" onClick={onContactClick}>
+            <ContactCtaLink to="/#contact" className="btn-primary">
               Dapatkan Penawaran <i className="fa-solid fa-chevron-right" />
-            </Link>
+            </ContactCtaLink>
           </div>
         </div>
       </div>

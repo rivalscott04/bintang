@@ -1,5 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
+import ContactCtaLink from '../contact/ContactCtaLink';
 import { useSmoothScroll } from '../../hooks/useSmoothScroll';
+import { isContactLinkHref } from '../../utils/contactLink';
 
 /**
  * Nav item: route (`/projek`, `/klaster`) atau section beranda (`/#contact`).
@@ -11,13 +13,14 @@ export default function AppNavLink({ to, label, onNavigate, variant = 'header' }
   const isHashLink = to.includes('#');
   const hash = isHashLink ? to.slice(to.indexOf('#')) : '';
   const isHome = location.pathname === '/';
+  const isContact = isContactLinkHref(to);
 
   const isActive = isHashLink
     ? isHome && location.hash === hash
     : location.pathname === to || location.pathname.startsWith(`${to}/`);
 
   const handleClick = (e) => {
-    if (isHashLink && isHome) {
+    if (isContact && isHome) {
       handleSmoothScroll(e);
     }
     if (typeof onNavigate === 'function') {
@@ -42,11 +45,26 @@ export default function AppNavLink({ to, label, onNavigate, variant = 'header' }
     isActive ? 'text-secondary' : 'text-white/60 hover:text-secondary focus:text-secondary',
   ].join(' ');
 
+  const className = variant === 'sticky' ? stickyClass : headerClass;
+
+  if (isContact) {
+    return (
+      <ContactCtaLink
+        to={to}
+        onClick={handleClick}
+        className={className}
+        aria-current={isActive ? 'page' : undefined}
+      >
+        {label}
+      </ContactCtaLink>
+    );
+  }
+
   return (
     <Link
       to={to}
       onClick={handleClick}
-      className={variant === 'sticky' ? stickyClass : headerClass}
+      className={className}
       aria-current={isActive ? 'page' : undefined}
     >
       {label}

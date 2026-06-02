@@ -7,7 +7,7 @@ import VirtualTourModal from '../components/virtual-tour/VirtualTourModal';
 import { useCluster } from '../hooks/useCluster';
 import { useClusterTourUrl } from '../hooks/useClusterTourUrl';
 import { useClusterVirtualTour } from '../hooks/useClusterVirtualTour';
-import { useSmoothScroll } from '../hooks/useSmoothScroll';
+import ContactCtaLink, { isContactLinkHref } from '../components/contact/ContactCtaLink';
 import { projectPath } from '../utils/routes';
 import { COPY } from '../utils/messages';
 
@@ -26,11 +26,9 @@ function ClusterDetailSkeleton() {
 export default function ClusterDetailPage() {
   const { slug } = useParams();
   const { cluster, loading, error, notFound } = useCluster(slug);
-  const handleScroll = useSmoothScroll();
   const clusterSlug = cluster?.slug ?? cluster?.id ?? slug;
   const { isTourOpen, openTour, closeTour } = useClusterTourUrl(clusterSlug);
   const { meta, scene, syncing, hasTour } = useClusterVirtualTour(clusterSlug);
-
   useEffect(() => {
     if (cluster?.title) {
       document.title = `${cluster.title} | Grand Kota Bintang`;
@@ -58,6 +56,7 @@ export default function ClusterDetailPage() {
   const projects = cluster.projects ?? [];
   const ctaHref = cluster.cta?.href ?? '/#contact';
   const ctaIsRoute = ctaHref.startsWith('/') && !ctaHref.startsWith('/#');
+  const ctaIsContact = isContactLinkHref(ctaHref);
   const firstProject = projects[0];
 
   return (
@@ -126,12 +125,16 @@ export default function ClusterDetailPage() {
                 {syncing ? 'Memuat...' : 'Tur 3D'}
               </button>
             )}
-            {ctaIsRoute ? (
+            {ctaIsContact ? (
+              <ContactCtaLink href={ctaHref} cluster={cluster.name} className="btn-outline">
+                {cluster.cta?.label ?? 'Hubungi kami'} <i className="fa-solid fa-chevron-right" />
+              </ContactCtaLink>
+            ) : ctaIsRoute ? (
               <Link to={ctaHref} className="btn-outline">
                 {cluster.cta?.label ?? 'Hubungi kami'} <i className="fa-solid fa-chevron-right" />
               </Link>
             ) : (
-              <a href={ctaHref} className="btn-outline" onClick={handleScroll}>
+              <a href={ctaHref} className="btn-outline">
                 {cluster.cta?.label ?? 'Hubungi kami'} <i className="fa-solid fa-chevron-right" />
               </a>
             )}
@@ -205,6 +208,7 @@ export default function ClusterDetailPage() {
             label: 'Hubungi',
             icon: 'fa-solid fa-envelope',
             to: '/#contact',
+            contactCluster: cluster.name,
           },
         ]}
       />
