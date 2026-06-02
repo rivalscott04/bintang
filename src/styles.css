@@ -56,7 +56,7 @@
     @apply bg-surface text-ink font-body leading-relaxed overflow-x-hidden;
   }
 
-  /* Static LCP hero (index.html): satu gambar untuk seluruh sesi */
+  /* Hero background: gambar dari API (useHeroBackground), placeholder gradient */
   .hero-lcp-bg {
     position: absolute;
     top: 0;
@@ -67,6 +67,7 @@
     z-index: 0;
     overflow: hidden;
     pointer-events: none;
+    background: linear-gradient(160deg, #15305b 0%, #0a1931 45%, #070f1e 100%);
   }
 
   .hero-lcp-bg img {

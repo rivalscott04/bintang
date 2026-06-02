@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import { fetchClusterBySlug } from '../api/clusters';
 import { hasApi } from '../api/config';
 import { CLUSTERS } from '../data/clusters';
+import { normalizeCluster } from '../utils/clusters';
 
 export function useCluster(slug) {
-  const fallback = CLUSTERS.find((c) => c.id === slug || c.slug === slug) ?? null;
+  const fallback =
+    normalizeCluster(CLUSTERS.find((c) => c.id === slug || c.slug === slug) ?? null) ?? null;
   const [cluster, setCluster] = useState(fallback);
   const [loading, setLoading] = useState(hasApi && !fallback);
   const [error, setError] = useState(null);
@@ -13,7 +15,9 @@ export function useCluster(slug) {
   useEffect(() => {
     if (!slug) return;
 
-    setCluster(CLUSTERS.find((c) => c.id === slug || c.slug === slug) ?? null);
+    setCluster(
+      normalizeCluster(CLUSTERS.find((c) => c.id === slug || c.slug === slug) ?? null) ?? null,
+    );
     setNotFound(false);
     setError(null);
 

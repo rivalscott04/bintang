@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import VirtualTourModal from '../virtual-tour/VirtualTourModal';
 import { useVirtualTour } from '../../hooks/useVirtualTour';
-import { assetUrl } from '../../utils/assets';
+import { mediaUrl } from '../../utils/assets';
 import { COPY } from '../../utils/messages';
 import SectionHeader from '../ui/SectionHeader';
 
@@ -10,7 +10,7 @@ export default function VirtualTour() {
   const { meta, scene, syncing, error } = useVirtualTour();
 
   const { section, preview, card } = meta;
-  const previewSrc = preview?.image ?? assetUrl('/assets/cluster_marocco-828.webp');
+  const previewSrc = mediaUrl(preview?.image);
   const previewAlt = preview?.imageAlt ?? 'Preview virtual tour 3D';
 
   return (
@@ -25,15 +25,17 @@ export default function VirtualTour() {
         )}
 
         <div className="relative w-full h-[520px] max-md:h-auto max-md:min-h-[460px] rounded-lg overflow-hidden shadow-medium border border-white/70 bg-primary group">
-          <img
-            src={previewSrc}
-            alt={previewAlt}
-            width={828}
-            height={828}
-            loading="lazy"
-            decoding="async"
-            className="absolute inset-0 w-full h-full object-cover brightness-[0.35] scale-105 transition-transform duration-3000 ease-luxury group-hover:scale-110"
-          />
+          {previewSrc ? (
+            <img
+              src={previewSrc}
+              alt={previewAlt}
+              width={828}
+              height={828}
+              loading="lazy"
+              decoding="async"
+              className="absolute inset-0 w-full h-full object-cover brightness-[0.35] scale-105 transition-transform duration-3000 ease-luxury group-hover:scale-110"
+            />
+          ) : null}
 
           <div className="absolute inset-0 bg-linear-to-br from-night/70 via-night/40 to-primary/80" />
 

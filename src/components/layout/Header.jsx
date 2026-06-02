@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
 import ContactCtaLink from '../contact/ContactCtaLink';
-import { assetUrl } from '../../utils/assets';
+import { mediaUrl } from '../../utils/assets';
 import { useNavigation } from '../../hooks/useNavigation';
 import { useContactSettings } from '../../hooks/useContactSettings';
 import AppNavLink from './AppNavLink';
@@ -32,7 +32,7 @@ export default function Header() {
             className="flex items-center gap-3 no-underline group"
           >
             <img
-              src={assetUrl('/assets/logo.webp')}
+              src={mediaUrl('/assets/logo.webp')}
               alt="Grand Kota Bintang - Modern Integrated District"
               className="h-14 max-md:h-11 w-auto block transition-transform duration-400 ease-luxury group-hover:scale-[1.03]"
             />

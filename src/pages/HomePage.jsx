@@ -4,6 +4,7 @@ import HomeSnapSection from '../components/home/HomeSnapSection';
 import Hero from '../components/sections/Hero';
 import ProjectsPreview from '../components/sections/ProjectsPreview';
 import Toast from '../components/ui/Toast';
+import { useHeroBackground } from '../hooks/useHeroBackground';
 import { useHomeScrollSnap } from '../hooks/useHomeScrollSnap';
 import { useScrollToHash } from '../hooks/useScrollToHash';
 import { useToast } from '../hooks/useToast';
@@ -27,6 +28,7 @@ const Contact = lazy(() =>
 );
 
 export default function HomePage() {
+  useHeroBackground();
   useHomeScrollSnap();
   useScrollToHash();
   const { toast, show, dismiss } = useToast();

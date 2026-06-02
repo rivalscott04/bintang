@@ -1,4 +1,5 @@
 import { PROJECTS } from '../data/projects';
+import { mediaUrl } from './assets';
 import { inferClusterSlug } from './routes';
 
 export function getProjectBySlug(slug) {
@@ -17,19 +18,22 @@ export function mergeProjectWithLocal(apiProject) {
     return apiProject;
   }
 
-  const image = apiProject.image || local.image;
-  const gallery =
+  const rawImage = apiProject.image || local.image;
+  const image = mediaUrl(rawImage);
+  const rawGallery =
     apiProject.gallery?.length > 0
       ? apiProject.gallery
       : local.gallery?.length > 0
         ? local.gallery
-        : image
-          ? [image]
+        : rawImage
+          ? [rawImage]
           : [];
+  const gallery = rawGallery.map((item) => mediaUrl(item)).filter(Boolean);
 
   return {
     ...local,
     ...apiProject,
+    image,
     gallery,
     priceRange: apiProject.priceRange ?? local.priceRange,
     specifications:

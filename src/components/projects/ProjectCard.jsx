@@ -1,16 +1,18 @@
 import { Link } from 'react-router-dom';
 import { PROJECT_STATUS } from '../../data/projects';
+import { mediaUrl } from '../../utils/assets';
 import { projectPath } from '../../utils/routes';
 
 export default function ProjectCard({ project }) {
   const statusMeta = PROJECT_STATUS[project.status] ?? PROJECT_STATUS.planned;
   const detailTo = projectPath(project);
+  const imageSrc = mediaUrl(project.image);
 
   return (
     <article className="group flex flex-col bg-surface rounded-md overflow-hidden shadow-soft border border-primary/3 transition-all duration-400 ease-luxury hover:-translate-y-1.5 hover:shadow-medium">
       <Link to={detailTo} className="relative h-[200px] max-md:h-[180px] overflow-hidden block">
         <img
-          src={project.image}
+          src={imageSrc}
           alt={project.imageAlt}
           width={640}
           height={427}

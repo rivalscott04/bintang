@@ -10,7 +10,8 @@ export async function fetchProjects({ signal } = {}) {
   }
 
   const payload = await getJson('/projects', { signal });
-  return Array.isArray(payload) ? payload : payload.projects ?? PROJECTS;
+  const list = Array.isArray(payload) ? payload : payload.projects ?? PROJECTS;
+  return list.map((project) => mergeProjectWithLocal(project));
 }
 
 /** Ambil satu proyek by slug dari API jika tersedia. */

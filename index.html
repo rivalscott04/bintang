@@ -24,7 +24,7 @@
     <meta property="og:image" content="https://grandkotabintang.com/assets/cluster_marocco.webp" />
     <meta property="og:locale" content="id_ID" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="icon" type="image/webp" href="/assets/favicon.webp" />
+    <!-- favicon di-set dari main.jsx → URL backend -->
 
     <!-- Icons above-the-fold — hindari layout shift saat FA load idle -->
     <link
@@ -39,32 +39,6 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
       />
     </noscript>
-
-    <!-- LCP hero image: fetch before JS -->
-    <link
-      rel="preload"
-      as="image"
-      type="image/webp"
-      href="/assets/cluster_marocco-640.webp"
-      media="(max-width: 767px)"
-      fetchpriority="high"
-    />
-    <link
-      rel="preload"
-      as="image"
-      type="image/webp"
-      href="/assets/cluster_marocco-828.webp"
-      media="(min-width: 768px) and (max-width: 1024px)"
-      fetchpriority="high"
-    />
-    <link
-      rel="preload"
-      as="image"
-      type="image/webp"
-      href="/assets/cluster_marocco.webp"
-      media="(min-width: 1025px)"
-      fetchpriority="high"
-    />
 
     <!-- Critical above-the-fold — paints before deferred CSS + React -->
     <style>
@@ -88,6 +62,7 @@
         z-index: 0;
         overflow: hidden;
         pointer-events: none;
+        background: linear-gradient(160deg, #15305b 0%, #0a1931 45%, #070f1e 100%);
       }
       .hero-lcp-bg img {
         width: 100%;
@@ -251,29 +226,8 @@
     </style>
   </head>
   <body>
-    <!-- Static LCP image — satu sumber; tidak dihapus saat React mount -->
-    <div id="hero-lcp-bg" class="hero-lcp-bg" aria-hidden="true">
-      <picture>
-        <source
-          media="(max-width: 767px)"
-          srcset="/assets/cluster_marocco-640.webp"
-          type="image/webp"
-        />
-        <source
-          media="(max-width: 1024px)"
-          srcset="/assets/cluster_marocco-828.webp"
-          type="image/webp"
-        />
-        <img
-          src="/assets/cluster_marocco.webp"
-          alt=""
-          width="1024"
-          height="1024"
-          fetchpriority="high"
-          decoding="sync"
-        />
-      </picture>
-    </div>
+    <!-- Hero image diisi React dari API (useHeroBackground) -->
+    <div id="hero-lcp-bg" class="hero-lcp-bg" aria-hidden="true"></div>
 
     <div id="root">
       <!-- Static hero — diganti React pada mount pertama (satu sumber tinggi, tanpa double-stack) -->

@@ -8,6 +8,10 @@ node_modules/
 dist/
 build/
 
+# Gambar hanya di backend/public/assets — jangan salin ke frontend
+public/assets/*
+!public/assets/.gitkeep
+
 # Internal docs
 quotation.md
 navbar_ui_ux_audit.md

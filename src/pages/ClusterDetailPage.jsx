@@ -82,7 +82,7 @@ export default function ClusterDetailPage() {
 
         <div className="relative rounded-md overflow-hidden shadow-medium mb-10 h-[min(420px,50vh)] max-md:h-[260px]">
           <img
-            src={cluster.image}
+            src={cluster.image || ''}
             alt={cluster.imageAlt}
             width={1200}
             height={800}

@@ -1,6 +1,6 @@
 import { ABOUT_PARAGRAPHS, ABOUT_STATS } from '../../data/about';
 import { useSmoothScroll } from '../../hooks/useSmoothScroll';
-import { assetUrl } from '../../utils/assets';
+import { mediaUrl } from '../../utils/assets';
 import SectionHeader from '../ui/SectionHeader';
 
 export default function About() {
@@ -51,16 +51,16 @@ export default function About() {
             <picture>
               <source
                 media="(max-width: 767px)"
-                srcSet={assetUrl('/assets/stellar_avenue-640.webp')}
+                srcSet={mediaUrl('/assets/stellar_avenue-640.webp')}
                 type="image/webp"
               />
               <source
                 media="(max-width: 1024px)"
-                srcSet={assetUrl('/assets/stellar_avenue-828.webp')}
+                srcSet={mediaUrl('/assets/stellar_avenue-828.webp')}
                 type="image/webp"
               />
               <img
-                src={assetUrl('/assets/stellar_avenue-1024.webp')}
+                src={mediaUrl('/assets/stellar_avenue-1024.webp')}
                 alt="Grand Kota Bintang Aerial View of Stellar Avenue Commercial Zone"
                 width={1024}
                 height={683}
