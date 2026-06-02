@@ -11,6 +11,7 @@ use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Model;
 
 class ContactSettingResource extends Resource
 {
@@ -20,7 +21,7 @@ class ContactSettingResource extends Resource
 
     protected static ?string $pluralModelLabel = 'Kontak & WhatsApp';
 
-    protected static ?string $navigationLabel = 'WhatsApp Sales';
+    protected static ?string $navigationLabel = 'Kontak & WhatsApp';
 
     protected static ?string $slug = 'contact-settings';
 
@@ -28,7 +29,24 @@ class ContactSettingResource extends Resource
 
     protected static string|\UnitEnum|null $navigationGroup = 'Pengaturan';
 
-    protected static ?int $navigationSort = 90;
+    protected static ?int $navigationSort = 80;
+
+    public static function getIndexUrl(
+        array $parameters = [],
+        bool $isAbsolute = true,
+        ?string $panel = null,
+        ?Model $tenant = null,
+        bool $shouldGuessMissingParameters = false,
+    ): string {
+        return static::getUrl(
+            'edit',
+            $parameters,
+            $isAbsolute,
+            $panel,
+            $tenant,
+            $shouldGuessMissingParameters,
+        );
+    }
 
     public static function form(Schema $schema): Schema
     {
