@@ -20,6 +20,9 @@ Boleh saya bantu kirim brosur & jadwalkan kunjungan? Terima kasih.
 TEXT;
 
     /** @var list<string> */
+    public const LOCKED_PLACEHOLDERS = ['{nama}', '{sales}', '{proyek}', '{klaster_line}'];
+
+    /** @var list<string> */
     public const PLACEHOLDERS = ['{nama}', '{proyek}', '{klaster}', '{klaster_line}', '{sales}'];
 
     /** @var list<string> */
@@ -171,7 +174,7 @@ TEXT;
 
     public static function placeholderHelp(): string
     {
-        return 'Edit teks bebas, tapi jangan hapus {nama}, {sales}, {proyek}, dan {klaster_line}.';
+        return 'Tag abu-abu terkunci. Edit teks di sekitarnya saja.';
     }
 
     public static function previewSample(?string $template): string

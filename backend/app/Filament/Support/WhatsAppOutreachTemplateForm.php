@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Support;
 
+use App\Filament\Forms\Components\WhatsAppOutreachTemplateEditor;
 use App\Support\WhatsAppOutreachTemplate;
 use Closure;
 use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Illuminate\Support\HtmlString;
@@ -19,15 +19,10 @@ final class WhatsAppOutreachTemplateForm
     {
         return [
             Section::make('Isi pesan WhatsApp')
-                ->description('Tulis pesan seperti chat biasa. Tag {nama}, {sales}, {proyek}, dan {klaster_line} otomatis terisi saat sales hubungi lead.')
+                ->description('Tulis narasi bebas di sekitar tag abu-abu. Tag {nama}, {sales}, {proyek}, dan {klaster_line} tidak bisa dihapus atau diseleksi.')
                 ->schema([
-                    Placeholder::make('template_tokens')
-                        ->hiddenLabel()
-                        ->content(new HtmlString(self::tokenGuideHtml()))
-                        ->dehydrated(false),
-                    Textarea::make('sales_whatsapp_outreach_template')
+                    WhatsAppOutreachTemplateEditor::make('sales_whatsapp_outreach_template')
                         ->label('Template pesan')
-                        ->rows(10)
                         ->required()
                         ->live(debounce: 400)
                         ->helperText(WhatsAppOutreachTemplate::placeholderHelp())
@@ -74,20 +69,5 @@ final class WhatsAppOutreachTemplateForm
     public static function templateFromFormState(array $data): string
     {
         return trim((string) ($data['sales_whatsapp_outreach_template'] ?? ''));
-    }
-
-    private static function tokenGuideHtml(): string
-    {
-        $badges = collect(['{nama}', '{sales}', '{proyek}', '{klaster_line}'])
-            ->map(fn (string $token): string => '<span class="fi-wa-template-badge">'.$token.'</span>')
-            ->implode('');
-
-        return <<<HTML
-<div class="fi-wa-template-guide">
-    <p class="fi-wa-template-guide__title">Tag otomatis (wajib ada di pesan)</p>
-    <div class="fi-wa-template-locks">{$badges}</div>
-    <p class="fi-wa-template-guide__hint">{klaster_line} otomatis jadi " (Klaster X)" jika lead punya klaster.</p>
-</div>
-HTML;
     }
 }
