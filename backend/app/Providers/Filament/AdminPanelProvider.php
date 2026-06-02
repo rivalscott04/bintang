@@ -63,6 +63,7 @@ class AdminPanelProvider extends PanelProvider
                     $inlineStyles = collect([
                         resource_path('css/filament/font-awesome-icon-picker.css'),
                         resource_path('css/filament/site-plan-block-editor.css'),
+                        resource_path('css/filament/whatsapp-outreach-template.css'),
                     ])
                         ->filter(fn (string $path): bool => is_readable($path))
                         ->map(fn (string $path): string => '<style>'.file_get_contents($path).'</style>')

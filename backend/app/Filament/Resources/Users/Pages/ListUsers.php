@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Users\Pages;
 
 use App\Filament\Resources\Users\UserResource;
+use App\Filament\Support\WhatsAppOutreachTemplateForm;
 use App\Models\ContactSetting;
-use App\Support\WhatsAppOutreachTemplate;
 use Filament\Actions\Action;
 use Filament\Actions\CreateAction;
-use Filament\Forms\Components\Textarea;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
 use Filament\Support\Icons\Heroicon;
@@ -26,28 +25,23 @@ class ListUsers extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('defaultOutreachTemplate')
-                ->label('Template outreach default')
+            Action::make('globalOutreachTemplate')
+                ->label('Template outreach global')
                 ->icon(Heroicon::OutlinedChatBubbleLeftEllipsis)
-                ->modalHeading('Template outreach default')
-                ->modalDescription('Dipakai saat sales follow-up lead via WhatsApp jika sales belum punya template kustom.')
-                ->form([
-                    Textarea::make('sales_whatsapp_outreach_template')
-                        ->label('Template WhatsApp outreach (default)')
-                        ->rows(8)
-                        ->helperText(WhatsAppOutreachTemplate::placeholderHelp()),
-                ])
-                ->fillForm(fn (): array => [
-                    'sales_whatsapp_outreach_template' => ContactSetting::current()->sales_whatsapp_outreach_template,
-                ])
+                ->modalHeading('Template outreach global')
+                ->modalDescription('Satu template untuk semua sales. Placeholder lead & proyek terkunci; yang bisa diubah hanya teks narasi.')
+                ->form(WhatsAppOutreachTemplateForm::sections())
+                ->fillForm(fn (): array => WhatsAppOutreachTemplateForm::formStateFromTemplate(
+                    ContactSetting::current()->sales_whatsapp_outreach_template,
+                ))
                 ->action(function (array $data): void {
                     ContactSetting::current()->update([
-                        'sales_whatsapp_outreach_template' => $data['sales_whatsapp_outreach_template'],
+                        'sales_whatsapp_outreach_template' => WhatsAppOutreachTemplateForm::buildTemplateFromFormState($data),
                     ]);
                     ContactSetting::forgetCache();
 
                     Notification::make()
-                        ->title('Template outreach default disimpan')
+                        ->title('Template outreach global disimpan')
                         ->success()
                         ->send();
                 }),

@@ -17,17 +17,22 @@ final class LeadWhatsAppServiceTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_prefers_sales_template_over_global(): void
+    public function test_uses_global_template_for_outreach_message(): void
     {
         ContactSetting::query()->create([
             'whatsapp_number' => '6281111111111',
-            'sales_whatsapp_outreach_template' => 'Global ke {nama}',
+            'sales_whatsapp_outreach_template' => WhatsAppOutreachTemplate::buildFromParts([
+                'text_before_nama' => 'Hai ',
+                'text_before_sales' => ",\n\nSaya ",
+                'text_before_proyek' => ' dari GKB soal ',
+                'text_after_klaster' => '.',
+            ]),
         ]);
         ContactSetting::forgetCache();
 
         $sales = User::factory()->create([
             'role' => 'sales',
-            'whatsapp_outreach_template' => 'Hai {nama} dari {sales}',
+            'name' => 'Rina',
         ]);
 
         $lead = Lead::query()->create([
@@ -41,14 +46,14 @@ final class LeadWhatsAppServiceTest extends TestCase
         $url = app(LeadWhatsAppService::class)->outreachUrlForLead($lead);
 
         $this->assertStringStartsWith('https://wa.me/6281234567890?', $url);
-        $this->assertStringContainsString(rawurlencode('Hai Budi dari '.$sales->name), $url);
+        $this->assertStringContainsString(rawurlencode("Hai Budi,\n\nSaya Rina dari GKB soal Stellar."), $url);
     }
 
-    public function test_uses_global_when_sales_has_no_custom_template(): void
+    public function test_falls_back_to_default_when_global_template_is_invalid(): void
     {
         ContactSetting::query()->create([
             'whatsapp_number' => '6281111111111',
-            'sales_whatsapp_outreach_template' => 'Global untuk {nama}',
+            'sales_whatsapp_outreach_template' => 'Template tanpa placeholder',
         ]);
         ContactSetting::forgetCache();
 
@@ -64,7 +69,8 @@ final class LeadWhatsAppServiceTest extends TestCase
 
         $message = app(LeadWhatsAppService::class)->previewMessageForLead($lead);
 
-        $this->assertSame('Global untuk Ani', $message);
+        $this->assertStringContainsString('Halo Ani', $message);
+        $this->assertStringContainsString('Unit B', $message);
     }
 
     protected function setUp(): void

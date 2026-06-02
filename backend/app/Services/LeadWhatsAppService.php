@@ -43,13 +43,8 @@ final class LeadWhatsAppService
 
     private function resolveTemplate(Lead $lead): string
     {
-        $custom = $lead->assignee?->whatsapp_outreach_template;
-        if (filled($custom)) {
-            return $custom;
-        }
-
         $global = ContactSetting::current()->sales_whatsapp_outreach_template;
-        if (filled($global)) {
+        if (filled($global) && WhatsAppOutreachTemplate::containsAllPlaceholders($global)) {
             return $global;
         }
 

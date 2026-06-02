@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Users\Schemas;
 
-use App\Support\WhatsAppOutreachTemplate;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
@@ -39,18 +37,13 @@ final class UserForm
                             : 'Minimal 8 karakter. Dibagikan ke sales untuk login admin panel jika diperlukan.'),
                 ]),
             Section::make('WhatsApp sales')
-                ->description('Nomor sales untuk follow-up lead setelah didistribusikan dari GM.')
+                ->description('Nomor sales untuk follow-up lead setelah didistribusikan dari GM. Template pesan outreach global diatur lewat tombol «Template outreach global».')
                 ->schema([
                     TextInput::make('whatsapp_number')
                         ->label('Nomor WhatsApp sales')
                         ->required()
                         ->maxLength(20)
                         ->helperText('Format internasional tanpa + atau spasi. Contoh: 6281212345678'),
-                    Textarea::make('whatsapp_outreach_template')
-                        ->label('Template WhatsApp outreach')
-                        ->rows(8)
-                        ->helperText(WhatsAppOutreachTemplate::placeholderHelp().' Kosongkan untuk memakai template default global.')
-                        ->columnSpanFull(),
                 ])
                 ->columnSpanFull(),
         ]);

@@ -40,10 +40,32 @@ final class WhatsAppOutreachTemplateTest extends TestCase
         ]);
 
         $message = WhatsAppOutreachTemplate::render(
-            'Minat {proyek}{klaster_line}.',
+            'Minat {nama} untuk {proyek}{klaster_line}. Sales: {sales}',
             $lead,
         );
 
-        $this->assertSame('Minat Unit A.', $message);
+        $this->assertSame('Minat Ani untuk Unit A. Sales: Grand Kota Bintang', $message);
+    }
+
+    public function test_build_and_parse_roundtrip_preserves_placeholders(): void
+    {
+        $parts = [
+            'text_before_nama' => 'Halo ',
+            'text_before_sales' => ",\n\nPerkenalkan, saya ",
+            'text_before_proyek' => ' dari GKB terkait ',
+            'text_after_klaster' => ".\n\nBoleh dibantu?",
+        ];
+
+        $template = WhatsAppOutreachTemplate::buildFromParts($parts);
+
+        $this->assertSame($parts, WhatsAppOutreachTemplate::parseToParts($template));
+        $this->assertTrue(WhatsAppOutreachTemplate::containsAllPlaceholders($template));
+    }
+
+    public function test_parse_falls_back_when_placeholder_missing(): void
+    {
+        $parts = WhatsAppOutreachTemplate::parseToParts('Halo Budi, tanpa token wajib');
+
+        $this->assertSame(WhatsAppOutreachTemplate::defaultParts(), $parts);
     }
 }
