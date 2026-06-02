@@ -99,6 +99,8 @@ export default defineConfig(({ mode, command }) => {
     },
   },
   build: {
+    // VirtualTour3D + three.js sengaja di chunk terpisah (~1MB); sudah lazy-loaded.
+    chunkSizeWarningLimit: 1200,
     // Source map memakan RAM besar saat build (three.js ~1MB). Di VPS kecil pakai BUILD_LEAN=1.
     sourcemap: process.env.BUILD_LEAN !== '1',
     // Keep Vite's preload helper out of the three.js chunk (otherwise index.js pulls ~900KB).

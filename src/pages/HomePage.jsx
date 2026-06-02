@@ -7,6 +7,7 @@ import Toast from '../components/ui/Toast';
 import { useHomeScrollSnap } from '../hooks/useHomeScrollSnap';
 import { useScrollToHash } from '../hooks/useScrollToHash';
 import { useToast } from '../hooks/useToast';
+import { AmenitiesSection } from '../lazy/amenitiesSection';
 import '../styles/home-scroll-snap.css';
 
 const ClustersPreview = lazy(() =>
@@ -14,9 +15,6 @@ const ClustersPreview = lazy(() =>
 );
 const VirtualTour = lazy(() =>
   import(/* webpackPrefetch: false */ /* webpackPreload: false */ '../components/sections/VirtualTour'),
-);
-const Amenities = lazy(() =>
-  import(/* webpackPrefetch: false */ /* webpackPreload: false */ '../components/sections/Amenities'),
 );
 const KPRCalculator = lazy(() =>
   import(/* webpackPrefetch: false */ /* webpackPreload: false */ '../components/sections/KPRCalculator'),
@@ -70,7 +68,7 @@ export default function HomePage() {
 
         <HomeSnapSection ariaLabel="Amenitas dan lokasi">
           <Suspense fallback={<HomeSectionFallback minHeight="520px" />}>
-            <Amenities />
+            <AmenitiesSection />
           </Suspense>
         </HomeSnapSection>
 

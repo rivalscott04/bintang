@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Amenities from '../components/sections/Amenities';
+import HomeSectionFallback from '../components/home/HomeSectionFallback';
+import { AmenitiesSection } from '../lazy/amenitiesSection';
 
 export default function LocationPage() {
   useEffect(() => {
@@ -18,7 +19,9 @@ export default function LocationPage() {
           <span className="text-primary font-medium">Lokasi</span>
         </nav>
       </div>
-      <Amenities embedded />
+      <Suspense fallback={<HomeSectionFallback minHeight="520px" />}>
+        <AmenitiesSection embedded />
+      </Suspense>
     </main>
   );
 }
