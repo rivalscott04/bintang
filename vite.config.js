@@ -1,6 +1,31 @@
+import { readFileSync, existsSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
+
+/** Parse file .env sederhana (tanpa dependensi tambahan). */
+function parseEnvFile(filename) {
+  const filePath = resolve(process.cwd(), filename);
+  if (!existsSync(filePath)) return {};
+  const vars = {};
+  for (const line of readFileSync(filePath, 'utf8').split('\n')) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+    const eq = trimmed.indexOf('=');
+    if (eq === -1) continue;
+    const key = trimmed.slice(0, eq).trim();
+    let value = trimmed.slice(eq + 1).trim();
+    if (
+      (value.startsWith('"') && value.endsWith('"')) ||
+      (value.startsWith("'") && value.endsWith("'"))
+    ) {
+      value = value.slice(1, -1);
+    }
+    vars[key] = value;
+  }
+  return vars;
+}
 
 /** Kurangi CLS dari font swap (@fontsource default: swap). */
 function fontDisplayOptionalPlugin() {
@@ -30,8 +55,31 @@ function asyncCssPlugin() {
   };
 }
 
-export default defineConfig({
+export default defineConfig(({ mode, command }) => {
+  const isProdBuild = command === 'build' && mode === 'prod';
+  const prodApiBaseUrl = isProdBuild ? parseEnvFile('.env.prod').VITE_API_BASE_URL : undefined;
+
+  if (isProdBuild && !prodApiBaseUrl) {
+    console.warn(
+      '[vite] .env.prod tidak ditemukan atau VITE_API_BASE_URL kosong — salin dari .env.prod.example',
+    );
+  }
+
+  // Dev: loadEnv(development) + .env.development. Build prod: paksa nilai dari .env.prod
+  // (process.env.VITE_* di shell/IDE bisa menimpa file env bawaan Vite).
+  const viteEnvDefine =
+    isProdBuild && prodApiBaseUrl
+      ? {
+          'import.meta.env.VITE_API_BASE_URL': JSON.stringify(prodApiBaseUrl),
+          'import.meta.env.MODE': JSON.stringify(mode),
+          'import.meta.env.DEV': 'false',
+          'import.meta.env.PROD': 'true',
+        }
+      : undefined;
+
+  return {
   plugins: [react(), tailwindcss(), fontDisplayOptionalPlugin(), asyncCssPlugin()],
+  define: viteEnvDefine,
   server: {
     port: 5173,
     open: true,
@@ -66,4 +114,5 @@ export default defineConfig({
       },
     },
   },
+  };
 });

@@ -8,7 +8,7 @@
     "dev": "bunx --bun vite",
     "dev:backend": "cd backend && php artisan serve --port=8000",
     "dev:all": "concurrently -k -n api,web -c blue,magenta \"bun run dev:backend\" \"bun run dev\"",
-    "build": "bun run optimize:images && bunx --bun vite build",
+    "build": "bun run optimize:images && bunx --bun vite build --mode prod",
     "preview": "bunx --bun vite preview",
     "optimize:images": "bun scripts/optimize-images.mjs"
   },

@@ -20,6 +20,8 @@ filament-ai-guidelines/
 .env
 .env.*
 !.env.example
+!.env.development
+!.env.prod.example
 
 # Logs
 *.log
