@@ -12,6 +12,8 @@ class EditContactSetting extends EditRecord
 {
     protected static string $resource = ContactSettingResource::class;
 
+    protected static ?string $title = 'Kontak & WhatsApp';
+
     public function mount(int|string|null $record = null): void
     {
         parent::mount(ContactSetting::current()->getKey());

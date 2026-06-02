@@ -11,7 +11,6 @@ use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
-use Illuminate\Database\Eloquent\Model;
 
 class ContactSettingResource extends Resource
 {
@@ -31,23 +30,6 @@ class ContactSettingResource extends Resource
 
     protected static ?int $navigationSort = 80;
 
-    public static function getIndexUrl(
-        array $parameters = [],
-        bool $isAbsolute = true,
-        ?string $panel = null,
-        ?Model $tenant = null,
-        bool $shouldGuessMissingParameters = false,
-    ): string {
-        return static::getUrl(
-            'edit',
-            $parameters,
-            $isAbsolute,
-            $panel,
-            $tenant,
-            $shouldGuessMissingParameters,
-        );
-    }
-
     public static function form(Schema $schema): Schema
     {
         return ContactSettingForm::configure($schema);
@@ -61,7 +43,7 @@ class ContactSettingResource extends Resource
     public static function getPages(): array
     {
         return [
-            'edit' => EditContactSetting::route('/'),
+            'index' => EditContactSetting::route('/'),
         ];
     }
 
