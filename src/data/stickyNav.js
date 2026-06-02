@@ -8,7 +8,7 @@ export const STICKY_NAV_ITEMS = [
   {
     id: 'wa',
     icon: 'fa-brands fa-whatsapp',
-    label: 'Chat Sales',
+    label: 'Chat GM',
     href: WHATSAPP_URL,
     external: true,
     highlight: true,

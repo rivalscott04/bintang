@@ -238,7 +238,7 @@ export default function Contact({ onSubmit }) {
                   </>
                 ) : (
                   <>
-                    Kirim Permintaan Brosur & Hubungi Sales{' '}
+                    Kirim Permintaan Brosur & Hubungi GM{' '}
                     <i className="fa-solid fa-paper-plane" />
                   </>
                 )}

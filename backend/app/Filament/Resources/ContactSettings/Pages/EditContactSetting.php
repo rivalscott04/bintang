@@ -12,7 +12,7 @@ class EditContactSetting extends EditRecord
 {
     protected static string $resource = ContactSettingResource::class;
 
-    protected static ?string $title = 'Kontak & WhatsApp';
+    protected static ?string $title = 'Kontak GM';
 
     public function mount(int|string|null $record = null): void
     {

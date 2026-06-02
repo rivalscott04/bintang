@@ -40,7 +40,7 @@ export default function HomePage() {
   const handleLeadSubmit = (data) => {
     show({
       title: 'Pesan Terkirim!',
-      message: `Halo ${data.name}, pengajuan brosur klaster ${data.cluster} berhasil kami terima. Sales kami akan segera menghubungi Anda via WhatsApp.`,
+      message: `Halo ${data.name}, pengajuan brosur klaster ${data.cluster} berhasil kami terima. Tim kami akan segera menghubungi Anda via WhatsApp.`,
       type: 'success',
     });
   };

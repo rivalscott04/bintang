@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Tim Sales GKB',
                 'password' => Hash::make('password'),
                 'role' => UserRole::Sales,
+                'whatsapp_number' => '6281987654321',
             ],
         );
 

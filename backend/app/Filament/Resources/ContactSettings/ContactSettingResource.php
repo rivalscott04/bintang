@@ -16,11 +16,11 @@ class ContactSettingResource extends Resource
 {
     protected static ?string $model = ContactSetting::class;
 
-    protected static ?string $modelLabel = 'Kontak & WhatsApp';
+    protected static ?string $modelLabel = 'Kontak GM';
 
-    protected static ?string $pluralModelLabel = 'Kontak & WhatsApp';
+    protected static ?string $pluralModelLabel = 'Kontak GM';
 
-    protected static ?string $navigationLabel = 'Kontak & WhatsApp';
+    protected static ?string $navigationLabel = 'Kontak GM';
 
     protected static ?string $slug = 'contact-settings';
 

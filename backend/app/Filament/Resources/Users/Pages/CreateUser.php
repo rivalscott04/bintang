@@ -6,6 +6,7 @@ namespace App\Filament\Resources\Users\Pages;
 
 use App\Enums\UserRole;
 use App\Filament\Resources\Users\UserResource;
+use App\Models\ContactSetting;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateUser extends CreateRecord
@@ -19,6 +20,7 @@ class CreateUser extends CreateRecord
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         $data['role'] = UserRole::Sales->value;
+        $data['whatsapp_number'] = ContactSetting::normalizeWhatsAppNumber($data['whatsapp_number'] ?? '');
 
         return $data;
     }

@@ -16,7 +16,7 @@ class ContactSettingSeeder extends Seeder
             ['id' => 1],
             [
                 'whatsapp_number' => '6281234567890',
-                'whatsapp_default_message' => 'Halo Sales Grand Kota Bintang, saya tertarik dengan unit perumahan. Boleh minta brosur terbaru dan price list-nya?',
+                'whatsapp_default_message' => 'Halo GM Grand Kota Bintang, saya tertarik dengan unit perumahan. Boleh minta brosur terbaru dan price list-nya?',
                 'sales_whatsapp_outreach_template' => WhatsAppOutreachTemplate::DEFAULT,
             ],
         );

@@ -374,7 +374,7 @@ export default function ProjectDetailPage() {
                 </span>
                 <h3 className="font-display font-extrabold text-white text-xl mb-4">Dapatkan Brosur & Price List</h3>
                 <p className="text-white/80 font-body text-[0.9rem] font-light leading-relaxed mb-6">
-                  Isi nama & WhatsApp, lalu lanjut ke chat sales dengan pesan sudah terisi.
+                  Isi nama & WhatsApp, lalu lanjut ke chat GM dengan pesan sudah terisi.
                 </p>
                 <form onSubmit={handleFormSubmit} className="space-y-4">
                   <div>

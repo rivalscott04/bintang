@@ -63,7 +63,7 @@ export default function Header() {
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Chat Sales via WhatsApp"
+            aria-label="Chat GM via WhatsApp"
             className="md:hidden flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-[#25D366] text-white text-xl shrink-0 shadow-[0_4px_12px_rgba(37,211,102,0.35)]"
           >
             <i className="fa-brands fa-whatsapp" aria-hidden />

@@ -25,6 +25,10 @@ final class UsersTable
                     ->label('Email')
                     ->searchable()
                     ->copyable(),
+                TextColumn::make('whatsapp_number')
+                    ->label('WhatsApp')
+                    ->copyable()
+                    ->placeholder('—'),
                 TextColumn::make('leads_count')
                     ->label('Lead aktif')
                     ->counts('assignedLeads')

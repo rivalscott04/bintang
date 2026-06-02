@@ -1,7 +1,7 @@
 export const WHATSAPP_NUMBER = '6281234567890';
 
 export const WHATSAPP_DEFAULT_MESSAGE =
-  'Halo Sales Grand Kota Bintang, saya tertarik dengan unit perumahan. Boleh minta brosur terbaru dan price list-nya?';
+  'Halo GM Grand Kota Bintang, saya tertarik dengan unit perumahan. Boleh minta brosur terbaru dan price list-nya?';
 
 export function buildWhatsAppUrl(text = WHATSAPP_DEFAULT_MESSAGE, whatsappNumber = WHATSAPP_NUMBER) {
   const base = `https://wa.me/${whatsappNumber}`;
