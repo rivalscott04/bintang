@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Cache;
 
 class ContactSetting extends Model
 {
-    private const CACHE_KEY = 'contact_setting.current';
+    /** Cache ID saja — hindari serialize model yang bisa jadi __PHP_Incomplete_Class. */
+    private const CACHE_KEY = 'contact_setting.current_id';
 
     protected $fillable = [
         'whatsapp_number',
@@ -20,17 +21,19 @@ class ContactSetting extends Model
 
     public static function current(): self
     {
-        /** @var self $setting */
-        $setting = Cache::remember(self::CACHE_KEY, 300, function (): self {
-            return self::query()->firstOrCreate(
-                [],
-                [
-                    'whatsapp_number' => '6281234567890',
-                    'whatsapp_default_message' => 'Halo GM Grand Kota Bintang, saya tertarik dengan unit perumahan. Boleh minta brosur terbaru dan price list-nya?',
-                    'sales_whatsapp_outreach_template' => WhatsAppOutreachTemplate::DEFAULT,
-                ],
-            );
-        });
+        $cachedId = Cache::get(self::CACHE_KEY);
+
+        if (is_int($cachedId) || (is_string($cachedId) && ctype_digit($cachedId))) {
+            $setting = self::query()->find((int) $cachedId);
+
+            if ($setting instanceof self) {
+                return $setting;
+            }
+        }
+
+        $setting = self::resolveCurrent();
+
+        Cache::put(self::CACHE_KEY, (int) $setting->getKey(), 300);
 
         return $setting;
     }
@@ -38,6 +41,7 @@ class ContactSetting extends Model
     public static function forgetCache(): void
     {
         Cache::forget(self::CACHE_KEY);
+        Cache::forget('contact_setting.current');
     }
 
     public static function normalizeWhatsAppNumber(string $number): string
@@ -61,5 +65,17 @@ class ContactSetting extends Model
         }
 
         return $base.'?text='.rawurlencode($message);
+    }
+
+    private static function resolveCurrent(): self
+    {
+        return self::query()->firstOrCreate(
+            [],
+            [
+                'whatsapp_number' => '6281234567890',
+                'whatsapp_default_message' => 'Halo GM Grand Kota Bintang, saya tertarik dengan unit perumahan. Boleh minta brosur terbaru dan price list-nya?',
+                'sales_whatsapp_outreach_template' => WhatsAppOutreachTemplate::DEFAULT,
+            ],
+        );
     }
 }
