@@ -171,6 +171,23 @@ TEXT;
 
     public static function placeholderHelp(): string
     {
-        return 'Placeholder {nama}, {proyek}, {klaster_line}, dan {sales} terkunci. Hanya teks narasi yang bisa diubah.';
+        return 'Edit teks bebas, tapi jangan hapus {nama}, {sales}, {proyek}, dan {klaster_line}.';
+    }
+
+    public static function previewSample(?string $template): string
+    {
+        $template = trim($template ?? '');
+
+        if ($template === '' || ! self::containsAllPlaceholders($template)) {
+            return 'Template belum lengkap. Pastikan {nama}, {sales}, {proyek}, dan {klaster_line} masih ada di pesan.';
+        }
+
+        $lead = new Lead([
+            'name' => 'Budi Santoso',
+            'project_name' => 'Stellar Avenue',
+            'cluster_name' => 'Marocco',
+        ]);
+
+        return self::render($template, $lead, new User(['name' => 'Rina Sales']));
     }
 }

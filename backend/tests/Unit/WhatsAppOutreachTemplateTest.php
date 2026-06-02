@@ -68,4 +68,23 @@ final class WhatsAppOutreachTemplateTest extends TestCase
 
         $this->assertSame(WhatsAppOutreachTemplate::defaultParts(), $parts);
     }
+
+    public function test_preview_sample_renders_example_lead(): void
+    {
+        $preview = WhatsAppOutreachTemplate::previewSample(
+            'Halo {nama}, saya {sales} dari GKB soal {proyek}{klaster_line}.',
+        );
+
+        $this->assertStringContainsString('Budi Santoso', $preview);
+        $this->assertStringContainsString('Rina Sales', $preview);
+        $this->assertStringContainsString('Stellar Avenue', $preview);
+        $this->assertStringContainsString('(Klaster Marocco)', $preview);
+    }
+
+    public function test_preview_sample_warns_when_template_incomplete(): void
+    {
+        $preview = WhatsAppOutreachTemplate::previewSample('Halo tanpa tag');
+
+        $this->assertStringContainsString('Template belum lengkap', $preview);
+    }
 }

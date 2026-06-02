@@ -29,14 +29,14 @@ class ListUsers extends ListRecords
                 ->label('Template outreach global')
                 ->icon(Heroicon::OutlinedChatBubbleLeftEllipsis)
                 ->modalHeading('Template outreach global')
-                ->modalDescription('Satu template untuk semua sales. Placeholder lead & proyek terkunci; yang bisa diubah hanya teks narasi.')
+                ->modalDescription('Tulis pesan outreach sekali di sini. Semua sales memakai template yang sama saat follow-up lead.')
                 ->form(WhatsAppOutreachTemplateForm::sections())
                 ->fillForm(fn (): array => WhatsAppOutreachTemplateForm::formStateFromTemplate(
                     ContactSetting::current()->sales_whatsapp_outreach_template,
                 ))
                 ->action(function (array $data): void {
                     ContactSetting::current()->update([
-                        'sales_whatsapp_outreach_template' => WhatsAppOutreachTemplateForm::buildTemplateFromFormState($data),
+                        'sales_whatsapp_outreach_template' => WhatsAppOutreachTemplateForm::templateFromFormState($data),
                     ]);
                     ContactSetting::forgetCache();
 

@@ -1,14 +1,32 @@
+.fi-wa-template-guide {
+    margin-bottom: 0.25rem;
+}
+
+.fi-wa-template-guide__title {
+    color: rgb(148 163 184);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    margin: 0 0 0.5rem;
+    text-transform: uppercase;
+}
+
+.fi-wa-template-guide__hint {
+    color: rgb(148 163 184);
+    font-size: 0.8rem;
+    line-height: 1.45;
+    margin: 0.5rem 0 0;
+}
+
 .fi-wa-template-locks {
-    align-items: center;
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    min-height: 2.75rem;
 }
 
 .fi-wa-template-badge {
-    background: rgb(197 168 128 / 0.15);
-    border: 1px solid rgb(197 168 128 / 0.45);
+    background: rgb(197 168 128 / 0.12);
+    border: 1px solid rgb(197 168 128 / 0.35);
     border-radius: 9999px;
     color: rgb(197 168 128);
     display: inline-flex;
@@ -17,7 +35,25 @@
     font-weight: 600;
     letter-spacing: 0.02em;
     line-height: 1;
-    padding: 0.45rem 0.75rem;
+    padding: 0.4rem 0.7rem;
     user-select: none;
     white-space: nowrap;
+}
+
+.fi-wa-template-preview {
+    background: rgb(15 23 42 / 0.55);
+    border: 1px solid rgb(148 163 184 / 0.18);
+    border-radius: 0.75rem;
+    color: rgb(226 232 240);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    padding: 1rem 1.1rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.fi-wa-template-preview--warn {
+    background: rgb(127 29 29 / 0.18);
+    border-color: rgb(248 113 113 / 0.35);
+    color: rgb(254 202 202);
 }
