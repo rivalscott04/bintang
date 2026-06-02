@@ -58,6 +58,35 @@ Ganti password segera di production.
 
 Menu **Pengaturan → WhatsApp Sales** di Filament: ubah nomor (`628…`) dan pesan default. Frontend membaca `GET /api/contact-settings` (fallback ke `src/utils/constants.js` jika API mati).
 
+## Gambar: statis vs dinamis (database)
+
+| Sumber | Di DB tersimpan | File di server | URL di API (`image`, `gallery`, …) |
+|--------|-----------------|----------------|-------------------------------------|
+| **Upload admin (Filament)** | `clusters/abc.webp`, `projects/…` | `storage/app/public/…` | `https://domain.com/storage/clusters/abc.webp` |
+| **Seed / legacy** | `/assets/cluster_marocco.webp` | `backend/public/assets/` | `https://domain.com/assets/…` |
+
+Alur dinamis (yang dipakai ke depan):
+
+1. Admin upload di **Klaster** / **Proyek** (Filament) → disimpan di disk `public` (`storage/app/public/clusters`, `projects`, dll.).
+2. Kolom `image` / `gallery` di DB menyimpan **path relatif** (bukan file binary).
+3. `GET /api/clusters` & `/api/projects` mengembalikan URL penuh lewat `imageUrl()` / `galleryUrls()`.
+4. Frontend React memanggil API (`useClusters`, `useProject`, …) dan menampilkan `cluster.image` / `project.gallery` langsung — tidak perlu rebuild SPA.
+
+Setup wajib di server:
+
+```bash
+cd backend && php artisan storage:link
+```
+
+Nginx (selain `/api`):
+
+- `/storage/*` → `backend/public/storage` (symlink ke `storage/app/public`)
+- `/assets/*` → `backend/public/assets/` (gambar seed / branding)
+
+Varian responsive `-640` / `-828` hanya otomatis untuk file di `/assets/` dengan penamaan itu. Upload baru memakai **satu file** (cukup untuk kartu & detail); varian bisa ditambah nanti lewat job konversi jika perlu.
+
+Generate varian legacy (opsional): `bun run optimize:images` → `backend/public/assets/`.
+
 ## Frontend React
 
 Di root monorepo, buat `.env`:

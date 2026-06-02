@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import ContactCtaLink from '../contact/ContactCtaLink';
 import { isContactLinkHref } from '../../utils/contactLink';
+import { imageVariantUrl } from '../../utils/assets';
 
 export default function ClusterCard({ cluster }) {
   const slug = cluster.slug ?? cluster.id;
@@ -24,12 +25,12 @@ export default function ClusterCard({ cluster }) {
         <picture>
           <source
             media="(max-width: 767px)"
-            srcSet={`${cluster.image.replace('.webp', '-640.webp')}`}
+            srcSet={imageVariantUrl(cluster.image, 640)}
             type="image/webp"
           />
           <source
             media="(max-width: 1024px)"
-            srcSet={`${cluster.image.replace('.webp', '-828.webp')}`}
+            srcSet={imageVariantUrl(cluster.image, 828)}
             type="image/webp"
           />
           <img

@@ -78,7 +78,7 @@ export function buildStaticTourMeta() {
       description: '',
     },
     preview: {
-      image: '/assets/cluster_marocco-828.webp',
+      image: '/assets/cluster_marocco-828.webp', // path relatif; API mengembalikan URL penuh bila dari backend
       imageAlt: 'Preview tur virtual Cluster Marocco',
     },
     card: {

@@ -1,3 +1,5 @@
+import { assetUrl } from '../../utils/assets';
+
 const SOCIALS = [
   {
     href: 'https://www.instagram.com/grand.kotabintang/',
@@ -23,7 +25,7 @@ export default function Footer() {
         <div className="flex flex-wrap items-center justify-between gap-8 border-b border-white/5 pb-10 mb-10 max-md:flex-col max-md:items-start">
           <div className="footer-brand max-w-[520px]">
             <img
-              src="/assets/logo.webp"
+              src={assetUrl('/assets/logo.webp')}
               alt="Grand Kota Bintang - Modern Integrated District"
               className="h-24 max-md:h-20 w-auto block mb-5 brightness-0 invert"
             />

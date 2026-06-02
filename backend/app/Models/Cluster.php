@@ -83,14 +83,22 @@ class Cluster extends Model
             && ! filter_var($path, FILTER_VALIDATE_URL);
     }
 
+    /**
+     * URL publik untuk gambar: upload storage, path statis (/assets/…), atau URL absolut.
+     * API mengembalikan URL penuh agar frontend cukup pakai field `image` dari JSON.
+     */
     public static function resolvePublicAssetUrl(string $path): string
     {
+        if (blank($path)) {
+            return '';
+        }
+
         if (filter_var($path, FILTER_VALIDATE_URL)) {
             return $path;
         }
 
         if (str_starts_with($path, '/')) {
-            return $path;
+            return url($path);
         }
 
         return Storage::disk('public')->url($path);

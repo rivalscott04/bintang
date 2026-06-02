@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import VirtualTourModal from '../virtual-tour/VirtualTourModal';
 import { useVirtualTour } from '../../hooks/useVirtualTour';
+import { assetUrl } from '../../utils/assets';
 import { COPY } from '../../utils/messages';
 import SectionHeader from '../ui/SectionHeader';
 
@@ -9,7 +10,7 @@ export default function VirtualTour() {
   const { meta, scene, syncing, error } = useVirtualTour();
 
   const { section, preview, card } = meta;
-  const previewSrc = preview?.image ?? '/assets/cluster_marocco-828.webp';
+  const previewSrc = preview?.image ?? assetUrl('/assets/cluster_marocco-828.webp');
   const previewAlt = preview?.imageAlt ?? 'Preview virtual tour 3D';
 
   return (

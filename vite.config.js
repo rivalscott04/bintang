@@ -88,11 +88,19 @@ export default defineConfig(({ mode, command }) => {
         target: 'http://localhost:8000',
         changeOrigin: true,
       },
+      '/assets': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
+      '/storage': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
     },
   },
   build: {
-    // Lighthouse: source maps for large first-party chunks (e.g. three-*.js)
-    sourcemap: true,
+    // Source map memakan RAM besar saat build (three.js ~1MB). Di VPS kecil pakai BUILD_LEAN=1.
+    sourcemap: process.env.BUILD_LEAN !== '1',
     // Keep Vite's preload helper out of the three.js chunk (otherwise index.js pulls ~900KB).
     modulePreload: false,
     rollupOptions: {
